@@ -109,8 +109,8 @@ col6.metric("Taxa Conversão", f"{conversion_rate:.2f}%")
 # Visualizações otimizadas
 st.header("3. Visualizações")
 @st.cache_data
-def get_visualizations(filtered_orders, filtered_order_items, filtered_products, rfm):
-    # Top 5 Produtos (sem restrição inicial de categoria)
+def get_visualizations(orders, order_items, products, filtered_orders, filtered_order_items, filtered_products, customers, rfm):
+    # Top 5 Produtos (usando dados brutos para todas as categorias)
     top_products = order_items.merge(orders, on='order_id') \
                              .merge(products, on='product_id') \
                              .assign(item_revenue=lambda x: x['quantity'] * x['unit_price']) \
@@ -121,7 +121,7 @@ def get_visualizations(filtered_orders, filtered_order_items, filtered_products,
                              .sort_values('total_revenue', ascending=False) \
                              .head(5)
 
-    # Receita por Categoria
+    # Receita por Categoria (com filtros)
     revenue_by_category = filtered_order_items.merge(filtered_orders, on='order_id') \
                                              .merge(filtered_products, on='product_id') \
                                              .assign(item_revenue=lambda x: x['quantity'] * x['unit_price']) \
@@ -130,7 +130,7 @@ def get_visualizations(filtered_orders, filtered_order_items, filtered_products,
                                              .reset_index() \
                                              .rename(columns={'item_revenue': 'total_revenue'})
 
-    # Receita por Estado
+    # Receita por Estado (com filtros)
     revenue_by_state = filtered_orders.merge(filtered_order_items, on='order_id') \
                                      .merge(filtered_products, on='product_id') \
                                      .merge(customers, on='customer_id') \
@@ -140,7 +140,7 @@ def get_visualizations(filtered_orders, filtered_order_items, filtered_products,
                                      .reset_index() \
                                      .rename(columns={'item_revenue': 'total_revenue'})
 
-    # Receita Mensal
+    # Receita Mensal (com filtros)
     revenue_monthly = filtered_orders.merge(filtered_order_items, on='order_id') \
                                     .merge(filtered_products, on='product_id') \
                                     .assign(item_revenue=lambda x: x['quantity'] * x['unit_price']) \
@@ -149,22 +149,22 @@ def get_visualizations(filtered_orders, filtered_order_items, filtered_products,
                                     .reset_index() \
                                     .rename(columns={'item_revenue': 'total_amount', 'order_date': 'order_date'})
 
-    # Status de Pedidos
+    # Status de Pedidos (com filtros)
     status_counts = filtered_orders['status'].value_counts().reset_index()
     status_counts.columns = ['status', 'count']
 
-    # Clientes Únicos por Mês
+    # Clientes Únicos por Mês (com filtros)
     monthly_customers = filtered_orders.groupby(filtered_orders['order_date'].dt.strftime('%Y-%m'))['customer_id'] \
                                       .nunique().reset_index(name='unique_customers')
 
-    # Pedidos Totais por Mês
+    # Pedidos Totais por Mês (com filtros)
     total_orders_by_month = filtered_orders.groupby(filtered_orders['order_date'].dt.strftime('%Y-%m')) \
                                           .size().reset_index(name='total_orders')
 
     return top_products, revenue_by_category, revenue_by_state, revenue_monthly, status_counts, monthly_customers, total_orders_by_month
 
 top_products, revenue_by_category, revenue_by_state, revenue_monthly, status_counts, monthly_customers, total_orders_by_month = get_visualizations(
-    filtered_orders, filtered_order_items, filtered_products, rfm
+    orders, order_items, products, filtered_orders, filtered_order_items, filtered_products, customers, rfm
 )
 
 # Gráficos

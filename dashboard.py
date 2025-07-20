@@ -267,7 +267,22 @@ except FileNotFoundError:
 
 # Relatório Resumo
 st.header("Resumo dos Resultados")
-st.markdown("""
+# Calcular distribuição geográfica
+if not revenue_by_state.empty:
+    top_state = revenue_by_state.loc[revenue_by_state['total_revenue'].idxmax(), 'state']
+    top_state_percentage = (revenue_by_state['total_revenue'].max() / revenue_by_state['total_revenue'].sum()) * 100
+else:
+    top_state = "N/A"
+    top_state_percentage = 0
+
+# Calcular distribuição RFM
+rfm_distribution = rfm['segment'].value_counts(normalize=True) * 100
+vip_percentage = rfm_distribution.get('VIP', 0)
+regular_percentage = rfm_distribution.get('Regular', 0)
+ocasional_percentage = rfm_distribution.get('Ocasional', 0)
+inativo_percentage = rfm_distribution.get('Inativo', 0)
+
+st.markdown(f"""
 ### Análise Exploratória:
 - **Estatísticas descritivas**: Fornecem uma visão geral dos dados:
   - `customers`: 10.000 clientes, com 8.864 nomes únicos e 2.973 cidades.
@@ -285,6 +300,12 @@ st.markdown("""
 ### Segmentação RFM:
 - Clientes segmentados em VIP, Regular, Ocasional e Inativo com base em recência, frequência e monetário.
 - Exemplo: João Guilherme da Cruz (RFM_score=10, VIP) comprou recentemente (16 dias), 5 vezes, gastando R$7.031,01.
+- **Tendências**: {vip_percentage:.1f}% VIP, {regular_percentage:.1f}% Regular, {ocasional_percentage:.1f}% Ocasional, {inativo_percentage:.1f}% Inativo.
+
+### Insights Adicionais:
+- **Desempenho Atual**: A receita total com os filtros aplicados é de R$ {total_revenue:,.2f}, com ticket médio de R$ {avg_ticket:,.2f}, sugerindo estabilidade nas vendas.
+- **Distribuição Geográfica**: A receita é liderada por {top_state}, representando cerca de {top_state_percentage:.1f}% do total.
+- **Recomendações**: Focar em campanhas de retenção para os {inativo_percentage:.1f}% de clientes Inativos, maximizar vendas em novembro com promoções sazonais e explorar o potencial de crescimento em estados com menor participação.
 """)
 
 # Visualização da tabela rfm_segmentation.csv com filtros

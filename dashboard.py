@@ -303,7 +303,7 @@ st.markdown(f"""
 - **Tendências**: {vip_percentage:.1f}% VIP, {regular_percentage:.1f}% Regular, {ocasional_percentage:.1f}% Ocasional, {inativo_percentage:.1f}% Inativo.
 
 ### Insights Adicionais:
-- **Desempenho Atual**: A receita total com os filtros aplicados é de R$ {total_revenue:,.2f}, com ticket médio de R$ {avg_ticket:,.2f}, sugerindo estabilidade nas vendas.
+- **Desempenho Atual**: A receita total com os filtros aplicados é de {total_revenue:,.2f} reais, com ticket médio de R$ {avg_ticket:,.2f}, sugerindo estabilidade nas vendas.
 - **Distribuição Geográfica**: A receita é liderada por {top_state}, representando cerca de {top_state_percentage:.1f}% do total.
 - **Recomendações**: Focar em campanhas de retenção para os {inativo_percentage:.1f}% de clientes Inativos, maximizar vendas em novembro com promoções sazonais e explorar o potencial de crescimento em estados com menor participação.
 """)

@@ -1,0 +1,501 @@
+product_id,product_name,category,price,brand
+1,Samsung Câmera Laudantium,Eletrônicos,1186.17,Samsung
+2,LG Camisa Similique,Esportes,476.84,LG
+3,Basic Sofá Optio,Casa & Jardim,590.96,Basic
+4,Apple Infantil Nobis,Livros,77.86,Apple
+5,Samsung Camiseta Corrupti,Moda,67.91,Samsung
+6,LG Laptop Quis,Eletrônicos,552.38,LG
+7,Generic Romance Ullam,Livros,21.1,Generic
+8,LG Autoajuda Amet,Livros,105.95,LG
+9,Adidas Ficção Cum,Livros,78.12,Adidas
+10,Generic Vestido Maiores,Moda,219.72,Generic
+11,Pro Laptop Ut,Eletrônicos,159.7,Pro
+12,Nike Vestido Minima,Moda,291.73,Nike
+13,LG Luminária Cupiditate,Casa & Jardim,669.31,LG
+14,Apple Fone de Ouvido Eos,Eletrônicos,715.78,Apple
+15,Nike Tablet Eaque,Eletrônicos,627.29,Nike
+16,Philips Romance Impedit,Livros,34.26,Philips
+17,H&M Camiseta Consequuntur,Moda,108.67,H&M
+18,Apple Bolsa Dolores,Moda,169.31,Apple
+19,Elite Mochila Eius,Esportes,233.01,Elite
+20,Standard Técnico Voluptate,Livros,45.58,Standard
+21,LG Autoajuda At,Livros,79.24,LG
+22,Samsung Câmera Magnam,Eletrônicos,504.53,Samsung
+23,Pro Luminária Architecto,Casa & Jardim,247.87,Pro
+24,Elite Laptop Veritatis,Eletrônicos,1162.45,Elite
+25,Adidas Tablet Eos,Eletrônicos,1422.6,Adidas
+26,Premium Vestido Expedita,Moda,240.92,Premium
+27,Nike Luminária Pariatur,Casa & Jardim,175.75,Nike
+28,Premium Luminária Temporibus,Casa & Jardim,421.1,Premium
+29,Generic Câmera Placeat,Eletrônicos,1818.0,Generic
+30,H&M Espelho Perspiciatis,Casa & Jardim,56.23,H&M
+31,Sony Vaso Vel,Casa & Jardim,493.88,Sony
+32,Philips Óculos Vitae,Moda,71.89,Philips
+33,LG Autoajuda Facere,Livros,21.83,LG
+34,Elite Tênis Optio,Esportes,475.98,Elite
+35,Elite Sofá In,Casa & Jardim,773.19,Elite
+36,Adidas Bola Nostrum,Esportes,409.95,Adidas
+37,LG TV Pariatur,Eletrônicos,983.38,LG
+38,LG Mochila Ex,Esportes,75.91,LG
+39,Adidas Óculos Quas,Moda,213.16,Adidas
+40,Sony Vestido Sequi,Moda,146.04,Sony
+41,LG Espelho Nesciunt,Casa & Jardim,115.19,LG
+42,H&M Técnico Adipisci,Livros,66.99,H&M
+43,Adidas Infantil Accusamus,Livros,18.61,Adidas
+44,Nike Calça Architecto,Moda,275.06,Nike
+45,H&M Vaso Earum,Casa & Jardim,221.85,H&M
+46,Pro Smartphone Debitis,Eletrônicos,2021.31,Pro
+47,Sony Câmera Aliquid,Eletrônicos,1003.96,Sony
+48,Pro Espelho Minus,Casa & Jardim,425.65,Pro
+49,Generic Camiseta Nam,Moda,175.35,Generic
+50,Adidas Bolsa Eum,Moda,75.83,Adidas
+51,H&M Vestido Autem,Moda,291.64,H&M
+52,Elite Romance Suscipit,Livros,96.39,Elite
+53,Premium TV Voluptates,Eletrônicos,2824.55,Premium
+54,Pro Mochila Pariatur,Esportes,450.57,Pro
+55,Apple Bola Vitae,Esportes,311.01,Apple
+56,Sony Sapato Omnis,Moda,278.52,Sony
+57,Basic Câmera Cum,Eletrônicos,356.63,Basic
+58,H&M Camisa Vitae,Esportes,122.11,H&M
+59,Standard Romance Delectus,Livros,19.75,Standard
+60,Elite Mochila Dolor,Esportes,182.91,Elite
+61,Generic Ficção Quod,Livros,55.81,Generic
+62,Nike Mesa Architecto,Casa & Jardim,231.65,Nike
+63,Pro Infantil In,Livros,102.02,Pro
+64,Generic Tablet Voluptatum,Eletrônicos,1134.58,Generic
+65,Samsung Camiseta Id,Moda,102.26,Samsung
+66,Standard Bola Debitis,Esportes,285.07,Standard
+67,Samsung Mesa Hic,Casa & Jardim,129.92,Samsung
+68,Apple Romance Cumque,Livros,99.23,Apple
+69,Elite Camiseta Modi,Moda,45.5,Elite
+70,Pro Ficção Nihil,Livros,118.62,Pro
+71,Premium Vaso Aperiam,Casa & Jardim,622.35,Premium
+72,Sony Técnico Placeat,Livros,35.87,Sony
+73,Elite Infantil Dolores,Livros,15.58,Elite
+74,LG Bolsa Saepe,Moda,249.25,LG
+75,Basic Luminária Sit,Casa & Jardim,571.35,Basic
+76,Premium Óculos Quam,Moda,225.48,Premium
+77,Zara Bicicleta Repudiandae,Esportes,392.5,Zara
+78,Apple Calça Libero,Moda,45.36,Apple
+79,Apple Luminária Labore,Casa & Jardim,299.6,Apple
+80,Generic TV Earum,Eletrônicos,436.02,Generic
+81,Generic Mesa Illo,Casa & Jardim,693.22,Generic
+82,Apple Câmera Iure,Eletrônicos,1907.56,Apple
+83,LG Smartphone Porro,Eletrônicos,1059.6,LG
+84,Elite Tablet Laborum,Eletrônicos,284.32,Elite
+85,H&M Laptop Nam,Eletrônicos,1001.85,H&M
+86,Premium Raquete Quia,Esportes,182.84,Premium
+87,H&M Mesa Et,Casa & Jardim,589.09,H&M
+88,Generic Biografia Impedit,Livros,81.94,Generic
+89,Pro Vaso Quia,Casa & Jardim,712.03,Pro
+90,LG Camiseta Ducimus,Moda,154.86,LG
+91,Premium Fone de Ouvido Tenetur,Eletrônicos,446.82,Premium
+92,Adidas Raquete Dicta,Esportes,365.23,Adidas
+93,Elite Óculos Occaecati,Moda,234.22,Elite
+94,Premium Câmera Perferendis,Eletrônicos,1727.7,Premium
+95,Samsung Fone de Ouvido Qui,Eletrônicos,2335.8,Samsung
+96,Pro Tênis Sapiente,Esportes,262.08,Pro
+97,LG Mesa Eligendi,Casa & Jardim,427.73,LG
+98,Zara Ficção Facilis,Livros,59.89,Zara
+99,Sony Vestido Qui,Moda,31.99,Sony
+100,LG Camiseta Explicabo,Moda,54.67,LG
+101,Pro Bolsa Tempore,Moda,33.64,Pro
+102,Samsung Câmera Eum,Eletrônicos,1945.59,Samsung
+103,Elite Romance Eligendi,Livros,48.01,Elite
+104,Standard Laptop Esse,Eletrônicos,1574.86,Standard
+105,Adidas Vaso Earum,Casa & Jardim,727.9,Adidas
+106,LG Sapato Necessitatibus,Moda,93.56,LG
+107,Sony Fone de Ouvido Dignissimos,Eletrônicos,1290.11,Sony
+108,Adidas Tablet Fugiat,Eletrônicos,2291.1,Adidas
+109,Philips Sapato Quaerat,Moda,87.92,Philips
+110,Premium Autoajuda Rem,Livros,23.08,Premium
+111,Sony Calça Asperiores,Moda,104.68,Sony
+112,LG Tênis Ab,Esportes,105.77,LG
+113,Basic Infantil Adipisci,Livros,112.62,Basic
+114,Basic Tablet Consequuntur,Eletrônicos,2443.55,Basic
+115,Samsung TV Saepe,Eletrônicos,1936.87,Samsung
+116,H&M Bolsa Aliquam,Moda,264.65,H&M
+117,Samsung Tapete Repellat,Casa & Jardim,646.86,Samsung
+118,Elite Laptop Enim,Eletrônicos,641.05,Elite
+119,Generic Smartphone Quos,Eletrônicos,2688.42,Generic
+120,Adidas Sofá Pariatur,Casa & Jardim,440.69,Adidas
+121,LG Infantil Totam,Livros,99.78,LG
+122,Samsung Infantil Nemo,Livros,109.09,Samsung
+123,Adidas Câmera Veniam,Eletrônicos,1022.21,Adidas
+124,Generic Infantil Unde,Livros,26.56,Generic
+125,Standard Bola Totam,Esportes,137.13,Standard
+126,Premium Espelho Blanditiis,Casa & Jardim,353.14,Premium
+127,LG Bola Sunt,Esportes,414.47,LG
+128,Sony Óculos Ut,Moda,261.7,Sony
+129,Zara Bola Ipsa,Esportes,33.27,Zara
+130,Samsung Fone de Ouvido Officiis,Eletrônicos,1581.17,Samsung
+131,Generic Romance Eaque,Livros,58.83,Generic
+132,H&M Laptop Eos,Eletrônicos,744.11,H&M
+133,Philips Ficção Ducimus,Livros,27.59,Philips
+134,Standard Tênis Voluptates,Esportes,188.68,Standard
+135,Nike Luminária Debitis,Casa & Jardim,755.47,Nike
+136,Zara Tapete Assumenda,Casa & Jardim,272.1,Zara
+137,Generic Mochila Velit,Esportes,273.83,Generic
+138,Samsung Autoajuda Natus,Livros,88.82,Samsung
+139,Philips Autoajuda Velit,Livros,53.18,Philips
+140,Standard Laptop Eligendi,Eletrônicos,2918.17,Standard
+141,Apple Tênis Tempore,Esportes,482.35,Apple
+142,Sony Técnico Et,Livros,41.44,Sony
+143,Generic Camisa Rem,Esportes,263.71,Generic
+144,LG Mochila Similique,Esportes,171.41,LG
+145,H&M Raquete Minima,Esportes,163.88,H&M
+146,Standard Tênis Unde,Esportes,47.34,Standard
+147,Premium Fone de Ouvido Et,Eletrônicos,1867.74,Premium
+148,Samsung Tênis Hic,Esportes,266.26,Samsung
+149,Pro Camisa Corporis,Esportes,54.2,Pro
+150,Sony Mochila Ab,Esportes,160.96,Sony
+151,H&M Óculos Ex,Moda,274.77,H&M
+152,H&M Camiseta Facilis,Moda,90.88,H&M
+153,Apple Câmera Magnam,Eletrônicos,520.2,Apple
+154,H&M Sofá Laudantium,Casa & Jardim,401.77,H&M
+155,Generic Bicicleta Voluptate,Esportes,493.26,Generic
+156,Adidas Mesa Laborum,Casa & Jardim,208.8,Adidas
+157,Philips Tablet Aspernatur,Eletrônicos,2049.19,Philips
+158,Standard Tablet Corrupti,Eletrônicos,2308.7,Standard
+159,Premium Mesa Fuga,Casa & Jardim,205.36,Premium
+160,Nike TV Labore,Eletrônicos,2211.83,Nike
+161,Generic Óculos Enim,Moda,126.14,Generic
+162,Standard Mesa Aspernatur,Casa & Jardim,513.2,Standard
+163,Pro Mesa Veritatis,Casa & Jardim,514.15,Pro
+164,Samsung Calça Placeat,Moda,172.34,Samsung
+165,Pro Raquete Ut,Esportes,72.44,Pro
+166,Philips Mesa Totam,Casa & Jardim,671.54,Philips
+167,Adidas Smartphone Suscipit,Eletrônicos,1030.26,Adidas
+168,LG Calça Esse,Moda,76.29,LG
+169,Nike Vestido Asperiores,Moda,36.21,Nike
+170,LG Sofá Aliquam,Casa & Jardim,480.9,LG
+171,Adidas Luminária Doloribus,Casa & Jardim,548.5,Adidas
+172,Elite Tênis Deleniti,Esportes,37.8,Elite
+173,Nike Mochila Rerum,Esportes,270.68,Nike
+174,Adidas Autoajuda A,Livros,38.78,Adidas
+175,Nike Romance Asperiores,Livros,82.74,Nike
+176,Standard Tablet Velit,Eletrônicos,605.66,Standard
+177,Generic Luminária Nulla,Casa & Jardim,558.93,Generic
+178,Apple TV Nulla,Eletrônicos,1221.53,Apple
+179,Nike Óculos Exercitationem,Moda,282.6,Nike
+180,Adidas Bicicleta Perferendis,Esportes,94.63,Adidas
+181,Apple Biografia Unde,Livros,50.81,Apple
+182,LG Técnico Unde,Livros,26.91,LG
+183,Basic Fone de Ouvido Non,Eletrônicos,2781.61,Basic
+184,H&M TV Itaque,Eletrônicos,2644.28,H&M
+185,Nike Vaso Minima,Casa & Jardim,221.19,Nike
+186,Premium Tablet Maxime,Eletrônicos,2013.95,Premium
+187,Nike Autoajuda Amet,Livros,100.81,Nike
+188,Basic Tablet Illo,Eletrônicos,1710.08,Basic
+189,Philips Autoajuda Inventore,Livros,70.61,Philips
+190,Nike Sapato Mollitia,Moda,91.51,Nike
+191,H&M Camisa Ea,Esportes,73.76,H&M
+192,Adidas Espelho Doloribus,Casa & Jardim,719.83,Adidas
+193,Premium Óculos Accusantium,Moda,272.61,Premium
+194,Generic Tapete Veritatis,Casa & Jardim,513.82,Generic
+195,Adidas Bicicleta Earum,Esportes,189.34,Adidas
+196,Philips Tablet Natus,Eletrônicos,1112.71,Philips
+197,Adidas Tapete Sed,Casa & Jardim,586.25,Adidas
+198,Premium Técnico Sapiente,Livros,109.2,Premium
+199,Zara Sapato Rerum,Moda,268.95,Zara
+200,H&M Vaso Iusto,Casa & Jardim,628.3,H&M
+201,Premium Sofá Pariatur,Casa & Jardim,520.78,Premium
+202,H&M Mochila Laborum,Esportes,69.55,H&M
+203,Nike Romance Exercitationem,Livros,31.97,Nike
+204,Premium Luminária Quas,Casa & Jardim,720.87,Premium
+205,Pro Mesa Aperiam,Casa & Jardim,493.01,Pro
+206,Samsung Sofá Temporibus,Casa & Jardim,27.17,Samsung
+207,Zara Tapete Dolorum,Casa & Jardim,99.15,Zara
+208,Zara Fone de Ouvido Sequi,Eletrônicos,2024.16,Zara
+209,LG Autoajuda Reprehenderit,Livros,15.53,LG
+210,Zara Sapato Rerum,Moda,69.22,Zara
+211,Sony Espelho Corporis,Casa & Jardim,448.01,Sony
+212,Standard Smartphone Voluptatum,Eletrônicos,2106.5,Standard
+213,LG Calça Ea,Moda,204.29,LG
+214,Zara Romance Tempora,Livros,38.55,Zara
+215,LG Romance Adipisci,Livros,89.78,LG
+216,Sony Sapato Delectus,Moda,90.24,Sony
+217,H&M Infantil Quasi,Livros,49.17,H&M
+218,Pro Raquete Asperiores,Esportes,380.85,Pro
+219,Elite Autoajuda Dolorem,Livros,83.21,Elite
+220,Adidas Infantil Aut,Livros,104.17,Adidas
+221,Standard Calça Eum,Moda,205.84,Standard
+222,Zara Vestido Doloribus,Moda,181.28,Zara
+223,Elite Espelho Vitae,Casa & Jardim,93.07,Elite
+224,Pro Bicicleta Necessitatibus,Esportes,202.83,Pro
+225,Premium Calça Harum,Moda,97.93,Premium
+226,Zara Tênis Voluptatibus,Esportes,144.68,Zara
+227,LG Bola Ab,Esportes,487.31,LG
+228,Nike Bicicleta Beatae,Esportes,214.76,Nike
+229,Sony Laptop Corrupti,Eletrônicos,2686.94,Sony
+230,Adidas Espelho Mollitia,Casa & Jardim,512.29,Adidas
+231,Basic Mesa Nesciunt,Casa & Jardim,639.95,Basic
+232,Adidas Fone de Ouvido Deserunt,Eletrônicos,1557.65,Adidas
+233,H&M Raquete Quam,Esportes,301.14,H&M
+234,Samsung Calça Sit,Moda,160.44,Samsung
+235,Adidas Bolsa Distinctio,Moda,78.69,Adidas
+236,Elite TV Numquam,Eletrônicos,2195.11,Elite
+237,Zara Camiseta Rem,Moda,102.21,Zara
+238,Philips Raquete Tenetur,Esportes,41.43,Philips
+239,H&M Óculos Vitae,Moda,202.5,H&M
+240,Pro Infantil Excepturi,Livros,33.6,Pro
+241,Zara Mesa Voluptatum,Casa & Jardim,753.56,Zara
+242,Adidas Raquete Assumenda,Esportes,478.35,Adidas
+243,Adidas Tablet Quis,Eletrônicos,2753.11,Adidas
+244,Basic Calça Consectetur,Moda,126.79,Basic
+245,Standard Calça Veritatis,Moda,29.25,Standard
+246,H&M Romance Magnam,Livros,112.47,H&M
+247,Generic Bolsa Itaque,Moda,142.75,Generic
+248,Apple Câmera Libero,Eletrônicos,2903.3,Apple
+249,Sony Sapato Aliquid,Moda,290.0,Sony
+250,Samsung Luminária Omnis,Casa & Jardim,685.35,Samsung
+251,Nike Calça Quos,Moda,105.97,Nike
+252,Nike Vestido Nisi,Moda,130.9,Nike
+253,Philips Sapato Consequatur,Moda,259.06,Philips
+254,Elite Tênis Expedita,Esportes,178.95,Elite
+255,Samsung Óculos Veritatis,Moda,71.61,Samsung
+256,Samsung Técnico Architecto,Livros,73.46,Samsung
+257,Premium Sofá Quia,Casa & Jardim,750.2,Premium
+258,Pro Smartphone Itaque,Eletrônicos,2118.49,Pro
+259,LG Sofá Quam,Casa & Jardim,464.65,LG
+260,Sony Ficção Voluptatibus,Livros,25.2,Sony
+261,Zara Espelho Magni,Casa & Jardim,499.71,Zara
+262,Generic Laptop Adipisci,Eletrônicos,2971.16,Generic
+263,Basic Vestido Veniam,Moda,63.52,Basic
+264,Sony Bicicleta Asperiores,Esportes,273.61,Sony
+265,Basic Autoajuda Cum,Livros,107.12,Basic
+266,Pro Laptop Vitae,Eletrônicos,2248.23,Pro
+267,Apple Bicicleta Occaecati,Esportes,357.6,Apple
+268,Standard Tablet Nobis,Eletrônicos,2137.2,Standard
+269,Premium Biografia Repellat,Livros,52.75,Premium
+270,Basic Calça Dolores,Moda,105.74,Basic
+271,Generic Câmera Aliquid,Eletrônicos,2447.15,Generic
+272,Apple Espelho Voluptate,Casa & Jardim,651.89,Apple
+273,Elite Mochila Reprehenderit,Esportes,437.52,Elite
+274,Pro Romance Sit,Livros,110.89,Pro
+275,Pro Romance Aperiam,Livros,68.69,Pro
+276,H&M Raquete Officiis,Esportes,265.71,H&M
+277,Apple Bicicleta Dolore,Esportes,405.2,Apple
+278,Samsung Raquete Officia,Esportes,335.48,Samsung
+279,Apple Sapato Quisquam,Moda,218.04,Apple
+280,Premium Raquete A,Esportes,404.02,Premium
+281,Adidas Mesa Soluta,Casa & Jardim,714.2,Adidas
+282,Premium Técnico Accusantium,Livros,50.49,Premium
+283,Pro Infantil Tenetur,Livros,54.44,Pro
+284,Zara Sapato Quaerat,Moda,50.85,Zara
+285,Philips Técnico Magni,Livros,75.72,Philips
+286,Elite Sofá Dicta,Casa & Jardim,48.03,Elite
+287,Standard Raquete Laboriosam,Esportes,248.83,Standard
+288,Pro Vaso Recusandae,Casa & Jardim,443.26,Pro
+289,Generic Autoajuda Illo,Livros,45.09,Generic
+290,Nike Camiseta Neque,Moda,187.48,Nike
+291,Elite Vestido Eius,Moda,33.39,Elite
+292,Zara Mesa Amet,Casa & Jardim,49.13,Zara
+293,Pro Bola Quia,Esportes,416.62,Pro
+294,Philips Bicicleta Rem,Esportes,199.29,Philips
+295,H&M Tênis Nobis,Esportes,89.72,H&M
+296,LG Romance Inventore,Livros,69.84,LG
+297,Basic Vaso Nostrum,Casa & Jardim,620.59,Basic
+298,H&M Calça Rem,Moda,84.35,H&M
+299,Premium Óculos Minus,Moda,196.29,Premium
+300,Zara Camiseta Ea,Moda,48.47,Zara
+301,Philips Laptop Illo,Eletrônicos,249.88,Philips
+302,Basic Calça Eaque,Moda,171.12,Basic
+303,Premium Bicicleta Harum,Esportes,284.1,Premium
+304,Zara Bicicleta Culpa,Esportes,329.59,Zara
+305,Nike Biografia Ex,Livros,91.24,Nike
+306,Nike Técnico Fuga,Livros,117.46,Nike
+307,Philips Vestido Sit,Moda,166.98,Philips
+308,LG Tênis Recusandae,Esportes,181.79,LG
+309,Nike Sofá Sequi,Casa & Jardim,640.25,Nike
+310,Pro Autoajuda Dignissimos,Livros,43.44,Pro
+311,LG Mesa Iusto,Casa & Jardim,362.4,LG
+312,Philips Óculos Magnam,Moda,46.58,Philips
+313,Pro Infantil Illum,Livros,17.66,Pro
+314,Philips Romance Repudiandae,Livros,116.08,Philips
+315,Philips Mesa Libero,Casa & Jardim,672.06,Philips
+316,Sony Bola Rem,Esportes,357.11,Sony
+317,Basic TV Maxime,Eletrônicos,1285.96,Basic
+318,Philips Sofá Dolorum,Casa & Jardim,155.17,Philips
+319,H&M Tablet Ratione,Eletrônicos,553.67,H&M
+320,Premium Vaso Sint,Casa & Jardim,215.19,Premium
+321,Elite Smartphone Dolor,Eletrônicos,1692.76,Elite
+322,Philips Biografia Consectetur,Livros,90.03,Philips
+323,Zara Vestido Non,Moda,206.55,Zara
+324,Samsung Luminária Porro,Casa & Jardim,238.35,Samsung
+325,Apple Camiseta Deleniti,Moda,287.59,Apple
+326,Zara Camiseta Delectus,Moda,227.92,Zara
+327,Premium Autoajuda Voluptates,Livros,73.21,Premium
+328,Sony Laptop Exercitationem,Eletrônicos,1873.99,Sony
+329,Philips Romance Incidunt,Livros,59.06,Philips
+330,Apple Tapete Aliquam,Casa & Jardim,213.23,Apple
+331,Generic Bolsa Dolorum,Moda,122.89,Generic
+332,LG Infantil Quo,Livros,94.57,LG
+333,Zara Sapato Officia,Moda,28.96,Zara
+334,Elite Bicicleta Repudiandae,Esportes,84.55,Elite
+335,Philips Bolsa Unde,Moda,37.65,Philips
+336,Samsung Infantil Magni,Livros,19.28,Samsung
+337,Pro Laptop Officia,Eletrônicos,2580.84,Pro
+338,Philips Espelho Eaque,Casa & Jardim,568.85,Philips
+339,Sony Laptop Nisi,Eletrônicos,1475.1,Sony
+340,H&M Sofá Excepturi,Casa & Jardim,96.31,H&M
+341,Samsung Vaso Tempore,Casa & Jardim,403.46,Samsung
+342,Basic Bolsa Odit,Moda,155.2,Basic
+343,Philips Camiseta Ipsam,Moda,72.63,Philips
+344,Philips Espelho Sed,Casa & Jardim,358.4,Philips
+345,Basic Raquete Reiciendis,Esportes,217.3,Basic
+346,Premium Laptop Itaque,Eletrônicos,1885.97,Premium
+347,Pro Mochila Est,Esportes,328.49,Pro
+348,Premium Ficção Deleniti,Livros,19.76,Premium
+349,Apple Bolsa Fugit,Moda,128.02,Apple
+350,Premium Mesa Modi,Casa & Jardim,508.17,Premium
+351,Elite Camisa Molestiae,Esportes,266.47,Elite
+352,Samsung Laptop Quod,Eletrônicos,2583.82,Samsung
+353,Generic Mochila Repudiandae,Esportes,339.59,Generic
+354,Standard Técnico Natus,Livros,32.11,Standard
+355,Apple Sapato Possimus,Moda,44.41,Apple
+356,Basic Raquete Modi,Esportes,331.94,Basic
+357,H&M Bicicleta Voluptate,Esportes,42.46,H&M
+358,Zara Camiseta Aut,Moda,186.09,Zara
+359,Samsung Biografia Esse,Livros,113.72,Samsung
+360,Generic Bola Nemo,Esportes,300.47,Generic
+361,Apple Laptop Blanditiis,Eletrônicos,1225.69,Apple
+362,Generic Romance Officia,Livros,82.55,Generic
+363,Generic Tênis Eum,Esportes,245.38,Generic
+364,Zara Tapete Nemo,Casa & Jardim,445.58,Zara
+365,Standard Vestido Recusandae,Moda,283.9,Standard
+366,Generic Vaso Voluptatum,Casa & Jardim,321.16,Generic
+367,Apple Sapato Nemo,Moda,289.33,Apple
+368,Adidas Bola Labore,Esportes,455.51,Adidas
+369,Premium Tênis Facere,Esportes,122.02,Premium
+370,Nike Vaso Aspernatur,Casa & Jardim,74.1,Nike
+371,Philips Óculos Suscipit,Moda,52.71,Philips
+372,Elite Bolsa Eligendi,Moda,30.01,Elite
+373,Zara Smartphone Iste,Eletrônicos,373.88,Zara
+374,Philips Bola Non,Esportes,351.01,Philips
+375,Pro Fone de Ouvido Quam,Eletrônicos,306.45,Pro
+376,Elite Romance Officia,Livros,48.49,Elite
+377,Zara Biografia In,Livros,103.71,Zara
+378,LG TV Deleniti,Eletrônicos,167.49,LG
+379,Generic Raquete Sint,Esportes,412.8,Generic
+380,Pro Camiseta Autem,Moda,102.51,Pro
+381,Philips Tapete Deserunt,Casa & Jardim,112.17,Philips
+382,Standard Luminária Repellendus,Casa & Jardim,563.45,Standard
+383,Standard Óculos Eligendi,Moda,197.96,Standard
+384,Apple Camiseta Ad,Moda,266.3,Apple
+385,Pro Ficção Illum,Livros,92.18,Pro
+386,Philips Tapete Eius,Casa & Jardim,646.72,Philips
+387,H&M Fone de Ouvido Commodi,Eletrônicos,917.9,H&M
+388,LG Smartphone Beatae,Eletrônicos,614.57,LG
+389,Apple Óculos Veritatis,Moda,231.42,Apple
+390,Zara Espelho Voluptas,Casa & Jardim,649.33,Zara
+391,H&M Mochila Eveniet,Esportes,495.54,H&M
+392,Adidas Raquete Aliquid,Esportes,223.93,Adidas
+393,LG Sapato Consectetur,Moda,127.3,LG
+394,Sony Biografia Dignissimos,Livros,96.52,Sony
+395,Standard Tapete Aut,Casa & Jardim,285.83,Standard
+396,Basic Ficção Magnam,Livros,112.73,Basic
+397,Philips Fone de Ouvido Maiores,Eletrônicos,2589.4,Philips
+398,Standard Bicicleta Aperiam,Esportes,231.63,Standard
+399,Elite Tênis Amet,Esportes,382.91,Elite
+400,Basic Bola Cum,Esportes,384.64,Basic
+401,Generic Autoajuda Pariatur,Livros,25.83,Generic
+402,Elite Calça Suscipit,Moda,273.2,Elite
+403,H&M Sapato Rem,Moda,163.94,H&M
+404,Nike Bicicleta Dolorem,Esportes,418.44,Nike
+405,Adidas Biografia Deserunt,Livros,48.61,Adidas
+406,Elite Camisa Itaque,Esportes,450.9,Elite
+407,Generic Vaso Nobis,Casa & Jardim,323.58,Generic
+408,Elite Vaso Neque,Casa & Jardim,28.45,Elite
+409,Nike Câmera Totam,Eletrônicos,2725.61,Nike
+410,Basic Sapato Fugit,Moda,50.1,Basic
+411,Premium Óculos Autem,Moda,112.81,Premium
+412,Zara Sofá Qui,Casa & Jardim,761.05,Zara
+413,H&M Tapete Perferendis,Casa & Jardim,761.47,H&M
+414,Elite Tênis Fuga,Esportes,299.52,Elite
+415,Apple Bolsa Distinctio,Moda,198.76,Apple
+416,Samsung Óculos Sed,Moda,148.32,Samsung
+417,Adidas Espelho Harum,Casa & Jardim,248.7,Adidas
+418,Apple Vaso Quo,Casa & Jardim,276.36,Apple
+419,Nike Bicicleta Quo,Esportes,346.08,Nike
+420,Premium Camiseta Aliquid,Moda,231.9,Premium
+421,Elite Mochila Modi,Esportes,402.04,Elite
+422,Adidas Técnico Hic,Livros,97.91,Adidas
+423,Elite Bolsa Tempore,Moda,50.08,Elite
+424,Generic Smartphone Veritatis,Eletrônicos,1533.82,Generic
+425,Premium Espelho Aperiam,Casa & Jardim,64.9,Premium
+426,LG Mochila Mollitia,Esportes,288.28,LG
+427,Adidas Smartphone Quas,Eletrônicos,1380.44,Adidas
+428,Zara Laptop Itaque,Eletrônicos,2674.34,Zara
+429,Standard Tênis Quisquam,Esportes,194.93,Standard
+430,Nike Smartphone Accusamus,Eletrônicos,439.49,Nike
+431,Nike Bola Ut,Esportes,97.21,Nike
+432,Sony Calça Suscipit,Moda,234.42,Sony
+433,Adidas Infantil Molestiae,Livros,79.91,Adidas
+434,Sony Mesa Voluptate,Casa & Jardim,98.88,Sony
+435,Generic Fone de Ouvido Saepe,Eletrônicos,343.91,Generic
+436,Premium Ficção Ratione,Livros,88.6,Premium
+437,Standard Bolsa Fugiat,Moda,45.01,Standard
+438,LG Vaso Ex,Casa & Jardim,661.05,LG
+439,Zara Bola In,Esportes,361.93,Zara
+440,Standard Fone de Ouvido Tempore,Eletrônicos,335.91,Standard
+441,Premium Bicicleta Repudiandae,Esportes,69.87,Premium
+442,Apple Vaso Magni,Casa & Jardim,789.58,Apple
+443,Generic Bola Sed,Esportes,205.91,Generic
+444,Basic Vestido Perspiciatis,Moda,126.93,Basic
+445,Elite Vestido Saepe,Moda,248.52,Elite
+446,Adidas Vaso Libero,Casa & Jardim,758.85,Adidas
+447,LG Fone de Ouvido Quas,Eletrônicos,2959.4,LG
+448,Nike Infantil Doloremque,Livros,94.1,Nike
+449,Basic Bola Veniam,Esportes,206.84,Basic
+450,Elite Câmera Excepturi,Eletrônicos,342.15,Elite
+451,Philips Camiseta Distinctio,Moda,238.72,Philips
+452,Elite Autoajuda In,Livros,73.63,Elite
+453,Standard TV Optio,Eletrônicos,1330.24,Standard
+454,Elite Vestido Atque,Moda,274.25,Elite
+455,Generic Luminária Consectetur,Casa & Jardim,106.73,Generic
+456,Premium Mesa Fugit,Casa & Jardim,404.25,Premium
+457,Philips Autoajuda Nostrum,Livros,16.19,Philips
+458,Premium Sofá Debitis,Casa & Jardim,385.56,Premium
+459,Philips Fone de Ouvido Suscipit,Eletrônicos,263.28,Philips
+460,Generic Tablet Occaecati,Eletrônicos,444.57,Generic
+461,Apple Luminária Pariatur,Casa & Jardim,111.67,Apple
+462,Basic Raquete Dicta,Esportes,335.13,Basic
+463,LG Mesa A,Casa & Jardim,601.92,LG
+464,Standard Técnico Quisquam,Livros,76.25,Standard
+465,H&M Técnico Veniam,Livros,116.03,H&M
+466,Philips Vaso Architecto,Casa & Jardim,312.4,Philips
+467,Basic Bola Officia,Esportes,164.28,Basic
+468,Zara Smartphone Tenetur,Eletrônicos,2618.94,Zara
+469,Pro Mesa Rerum,Casa & Jardim,194.4,Pro
+470,Elite Bolsa In,Moda,289.89,Elite
+471,Apple Raquete Quisquam,Esportes,35.71,Apple
+472,Philips TV Eius,Eletrônicos,2912.65,Philips
+473,Zara Tablet Ipsum,Eletrônicos,225.16,Zara
+474,Generic Raquete Maxime,Esportes,448.84,Generic
+475,Apple Mochila Earum,Esportes,278.02,Apple
+476,Zara Sofá Quisquam,Casa & Jardim,794.51,Zara
+477,Standard Infantil Beatae,Livros,22.75,Standard
+478,Standard Bicicleta Accusantium,Esportes,290.31,Standard
+479,Premium Sofá Nam,Casa & Jardim,776.06,Premium
+480,Standard Óculos Non,Moda,168.85,Standard
+481,Premium Raquete Nam,Esportes,325.82,Premium
+482,Sony Smartphone Commodi,Eletrônicos,2117.67,Sony
+483,Philips Fone de Ouvido Dolorum,Eletrônicos,1418.17,Philips
+484,Apple Laptop Quod,Eletrônicos,1919.92,Apple
+485,Sony Biografia Corporis,Livros,76.35,Sony
+486,Nike Óculos Modi,Moda,272.82,Nike
+487,Adidas Infantil Harum,Livros,19.77,Adidas
+488,Standard Vaso Cupiditate,Casa & Jardim,239.15,Standard
+489,Elite Fone de Ouvido Est,Eletrônicos,2856.19,Elite
+490,Adidas Técnico Ea,Livros,108.48,Adidas
+491,Basic Tablet Voluptate,Eletrônicos,1421.4,Basic
+492,Zara Vaso Alias,Casa & Jardim,503.7,Zara
+493,Elite Luminária Reiciendis,Casa & Jardim,236.36,Elite
+494,Premium Tablet Voluptatem,Eletrônicos,645.55,Premium
+495,Standard Autoajuda Vero,Livros,63.69,Standard
+496,Samsung Raquete Nam,Esportes,196.08,Samsung
+497,LG Tênis Enim,Esportes,304.32,LG
+498,Apple Óculos Tempora,Moda,46.38,Apple
+499,Premium Espelho Ipsum,Casa & Jardim,780.03,Premium
+500,Samsung Romance Quisquam,Livros,118.55,Samsung

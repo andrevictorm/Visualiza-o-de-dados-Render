@@ -22,22 +22,8 @@ st.set_page_config(page_title="Dashboard E-commerce", layout="wide")
 st.title("📊 Dashboard Interativo de E-commerce")
 st.markdown("Análise de vendas, clientes e produtos para 2024")
 
-# Depuração: listar diretórios e arquivos no contêiner (opcional)
-with st.expander("Depuração: Estrutura de diretórios no Render"):
-    st.write(f"Diretório atual: {os.getcwd()}")
-    base_dir = "/opt/render/project/src/"
-    st.write(f"Conteúdo de {base_dir}: ", end="")
-    try:
-        st.write(os.listdir(base_dir))
-    except FileNotFoundError:
-        st.write("Não encontrado")
-    except PermissionError:
-        st.write("Acesso negado")
-    for root, dirs, files in os.walk(base_dir):
-        st.write(f"Diretório: {root}")
-        st.write(f"Arquivos: {files}")
-
 # Caminho dos arquivos (testar múltiplos caminhos relativos a base_dir)
+base_dir = "/opt/render/project/src/"
 possible_paths = [
     os.path.join(base_dir, "Visualiza-o-de-dados-Render", "Ecommerce_Dataset"),
     os.path.join(base_dir, "Ecommerce_Dataset"),
@@ -50,14 +36,10 @@ required_files = ['customers.csv', 'products.csv', 'orders.csv', 'order_items.cs
 
 for path in possible_paths:
     if os.path.exists(path):
-        st.write(f"Pasta encontrada: {path}")
-        st.write(f"Arquivos em {path}: {os.listdir(path)}")
         missing_files = [f for f in required_files if not os.path.exists(os.path.join(path, f))]
         if not missing_files:
             base_path = path
             break
-    else:
-        st.write(f"Pasta {path} não encontrada.")
 
 if base_path is None:
     st.error(f"Nenhuma pasta com todos os arquivos necessários encontrada. Arquivos esperados: {', '.join(required_files)}")

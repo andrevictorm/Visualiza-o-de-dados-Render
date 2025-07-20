@@ -123,16 +123,16 @@ filtered_revenue_by_state = filtered_orders.merge(filtered_order_items, on='orde
                                           .reset_index() \
                                           .rename(columns={'item_revenue': 'total_revenue'})
 
-# Calcular top 5 produtos por receita
-filtered_top_products = filtered_order_items.merge(filtered_orders, on='order_id') \
-                                           .merge(filtered_products, on='product_id') \
-                                           .assign(item_revenue=lambda x: x['quantity'] * x['unit_price']) \
-                                           .groupby(['product_name', 'category']) \
-                                           .agg({'item_revenue': 'sum'}) \
-                                           .reset_index() \
-                                           .rename(columns={'item_revenue': 'total_revenue'}) \
-                                           .sort_values('total_revenue', ascending=False) \
-                                           .head(5)
+# Calcular top 5 produtos por receita (usando todos os produtos sem restrição inicial de categoria)
+filtered_top_products = order_items.merge(orders, on='order_id') \
+                                  .merge(products, on='product_id') \
+                                  .assign(item_revenue=lambda x: x['quantity'] * x['unit_price']) \
+                                  .groupby(['product_name', 'category']) \
+                                  .agg({'item_revenue': 'sum'}) \
+                                  .reset_index() \
+                                  .rename(columns={'item_revenue': 'total_revenue'}) \
+                                  .sort_values('total_revenue', ascending=False) \
+                                  .head(5)
 
 # Calcular receita por categoria
 filtered_revenue_by_category = filtered_order_items.merge(filtered_orders, on='order_id') \

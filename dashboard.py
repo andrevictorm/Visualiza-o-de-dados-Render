@@ -287,5 +287,29 @@ st.markdown("""
 - Exemplo: João Guilherme da Cruz (RFM_score=10, VIP) comprou recentemente (16 dias), 5 vezes, gastando R$7.031,01.
 """)
 
+# Visualização da tabela rfm_segmentation.csv com filtros
+st.header("Tabela de Segmentação RFM")
+# Filtros para recency, frequency e monetary
+min_recency = int(rfm['recency'].min())
+max_recency = int(rfm['recency'].max())
+min_frequency = int(rfm['frequency'].min())
+max_frequency = int(rfm['frequency'].max())
+min_monetary = int(rfm['monetary'].min())
+max_monetary = int(rfm['monetary'].max())
+
+recency_range = st.slider("Recency (dias)", min_recency, max_recency, (min_recency, max_recency))
+frequency_range = st.slider("Frequency (pedidos)", min_frequency, max_frequency, (min_frequency, max_frequency))
+monetary_range = st.slider("Monetary (R$)", min_monetary, max_monetary, (min_monetary, max_monetary))
+
+# Filtrar a tabela com base nos sliders
+filtered_rfm = rfm[
+    (rfm['recency'] >= recency_range[0]) & (rfm['recency'] <= recency_range[1]) &
+    (rfm['frequency'] >= frequency_range[0]) & (rfm['frequency'] <= frequency_range[1]) &
+    (rfm['monetary'] >= monetary_range[0]) & (rfm['monetary'] <= monetary_range[1])
+]
+
+# Exibir a tabela
+st.dataframe(filtered_rfm)
+
 st.markdown("---")
 st.markdown("Dashboard otimizado, 20/07/2025")

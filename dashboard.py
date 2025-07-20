@@ -2,7 +2,7 @@
 # PARTE 3: DASHBOARD INTERATIVO COM STREAMLIT (OTIMIZADO)
 # =============================================================================
 # Dashboard otimizado para e-commerce com KPIs e gráficos interativos.
-# Inclui filtros (meses, categorias, status, estados) e visualizações otimizadas.
+# Inclui filtros (meses, categorias, status, estados, segmentos RFM) e visualizações otimizadas.
 # Focado em reduzir tempo de carregamento e deploy no Render.
 # Para executar: streamlit run dashboard.py
 # Data: 20/07/2025
@@ -43,7 +43,7 @@ rfm, orders, order_items, products, customers = load_data()
 
 # Filtros
 st.header("1. Filtros")
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4, col5 = st.columns(5)  # Aumentado para 5 colunas
 
 with col1:
     months = sorted(orders['order_date'].dt.strftime('%Y-%m').unique().tolist())
@@ -61,9 +61,13 @@ with col4:
     states = sorted(customers['state'].unique().tolist())
     selected_states = st.multiselect("Estados", states, default=states)
 
+with col5:
+    rfm_segments = sorted(rfm['segment'].unique().tolist())
+    selected_rfm_segments = st.multiselect("Segmentos RFM", rfm_segments, default=rfm_segments)
+
 # Filtrar dados dinamicamente
 @st.cache_data
-def filter_data(orders, order_items, products, customers, months, categories, statuses, states):
+def filter_data(orders, order_items, products, customers, rfm, months, categories, statuses, states, rfm_segments):
     filtered_orders = orders[orders['order_date'].dt.strftime('%Y-%m').isin(months) & 
                            orders['status'].isin(statuses)]
     filtered_orders = filtered_orders[filtered_orders['customer_id'].isin(
@@ -72,10 +76,16 @@ def filter_data(orders, order_items, products, customers, months, categories, st
     filtered_products = products[products['category'].isin(categories)]
     filtered_order_items = filtered_order_items[filtered_order_items['product_id'].isin(filtered_products['product_id'])]
     filtered_orders = filtered_orders[filtered_orders['order_id'].isin(filtered_order_items['order_id'])]
+    
+    # Filtrar RFM se aplicável
+    if rfm_segments:
+        filtered_customer_ids = rfm[rfm['segment'].isin(rfm_segments)]['customer_id'].unique()
+        filtered_orders = filtered_orders[filtered_orders['customer_id'].isin(filtered_customer_ids)]
+    
     return filtered_orders, filtered_order_items, filtered_products
 
 filtered_orders, filtered_order_items, filtered_products = filter_data(
-    orders, order_items, products, customers, selected_months, selected_categories, selected_statuses, selected_states
+    orders, order_items, products, customers, rfm, selected_months, selected_categories, selected_statuses, selected_states, selected_rfm_segments
 )
 
 # KPIs otimizados
@@ -255,5 +265,12 @@ try:
 except FileNotFoundError:
     st.warning(f"Imagens não encontradas em {base_path}")
 
-st.markdown("---")
-st.markdown("Dashboard otimizado, 20/07/2025")
+# Relatório Resumo
+st.header("Resumo dos Resultados")
+st.markdown("""
+### Análise Exploratória:
+- **Estatísticas descritivas**: Fornecem uma visão geral dos dados:
+  - `customers`: 10.000 clientes, com 8.864 nomes únicos e 2.973 cidades.
+  - `products`: 500 produtos, com preços variando de 15,53 a 2.971,16 reais (média de R$485,32).
+  - `orders`: 50.000 pedidos, com `total_amount` de 12,75 a 14.617,32 reais (média de R$1.211,58).
+  - `order_items`: 101.382 itens, com quantidades de 1 a 3 e preços unitários de 12,43 a 3.118,

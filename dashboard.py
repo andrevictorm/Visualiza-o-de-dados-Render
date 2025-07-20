@@ -171,9 +171,10 @@ col1, col2, col3 = st.columns(3)
 col4, col5, col6 = st.columns(3)
 
 # Calcular Receita Total com base nos filtros
-total_revenue = filtered_order_items.merge(filtered_orders, on='order_id') \
-                                   .merge(filtered_products, on='product_id') \
-                                   ['item_revenue'].sum()
+revenue_df = filtered_order_items.merge(filtered_orders, on='order_id') \
+                                .merge(filtered_products, on='product_id') \
+                                .assign(item_revenue=lambda x: x['quantity'] * x['unit_price'])
+total_revenue = revenue_df['item_revenue'].sum()
 unique_customers = filtered_orders['customer_id'].nunique()
 total_orders = len(filtered_orders)
 avg_ticket = total_revenue / total_orders if total_orders > 0 else 0

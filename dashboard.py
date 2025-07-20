@@ -5,7 +5,8 @@
 # Inclui KPIs (receita, ticket médio, clientes únicos/totais, pedidos, taxa de conversão),
 # gráficos (receita mensal, top produtos, receita por categoria, status de pedidos, RFM, pedidos totais)
 # e filtros (meses, categoria, status de pedido).
-# A Receita Total agora respeita os filtros de meses, categorias e status, calculada diretamente de orders.csv.
+# A Receita Total respeita os filtros de meses, categorias e status, calculada diretamente de orders.csv.
+# Corrige erro de sintaxe (filtered hunting_customers).
 # Para executar: streamlit run dashboard.py
 # Data: 20/07/2025
 
@@ -127,7 +128,7 @@ total_revenue = filtered_order_items.merge(filtered_orders, on='order_id') \
                                    .merge(filtered_products, on='product_id') \
                                    .assign(item_revenue=lambda x: x['quantity'] * x['unit_price']) \
                                    ['item_revenue'].sum()
-unique_customers = filtered hunting_customers = filtered_orders['customer_id'].nunique()
+unique_customers = filtered_orders['customer_id'].nunique()
 total_orders = len(filtered_orders)
 avg_ticket = total_revenue / total_orders if total_orders > 0 else 0
 total_customers = len(filtered_orders)  # Contagem de pedidos (clientes totais)

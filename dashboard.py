@@ -5,7 +5,7 @@
 # Inclui KPIs (receita, ticket médio, clientes únicos/totais, pedidos, taxa de conversão),
 # gráficos (receita mensal, top produtos, receita por categoria, status de pedidos, RFM, pedidos totais)
 # e filtros (meses, categoria, status de pedido).
-# Remove dependência de monthly_revenue.csv, recalculando a receita diretamente.
+# Adiciona depuração detalhada para encontrar arquivos no Render.
 # Para executar: streamlit run dashboard.py
 # Data: 20/07/2025
 
@@ -21,11 +21,44 @@ st.set_page_config(page_title="Dashboard E-commerce", layout="wide")
 st.title("📊 Dashboard Interativo de E-commerce")
 st.markdown("Análise de vendas, clientes e produtos para 2024")
 
-# Caminho dos arquivos (ajuste para o ambiente local ou servidor)
-base_path = "/app/Ecommerce_Dataset/"  # Caminho para Render; ajuste para "./Ecommerce_Dataset/" se local
+# Depuração: listar diretórios e arquivos no contêiner
+st.write("**Depuração: Estrutura de diretórios no Render**")
+st.write(f"Diretório atual: {os.getcwd()}")
+st.write(f"Conteúdo de /app/: {os.listdir('/app/')}")
+st.write(f"Conteúdo de /: {os.listdir('/')}")
+for root, dirs, files in os.walk('/app'):
+    st.write(f"Diretório: {root}")
+    st.write(f"Arquivos: {files}")
+
+# Caminho dos arquivos (testar múltiplos caminhos)
+possible_paths = [
+    "/app/Ecommerce_Dataset/",
+    "/app/",
+    "/app/data/",
+    "/app/ECommerce_Dataset/",
+    "/app/ecommerce_dataset/"
+]
+base_path = None
+required_files = ['customers.csv', 'products.csv', 'orders.csv', 'order_items.csv', 'rfm_segmentation.csv']
+
+for path in possible_paths:
+    if os.path.exists(path):
+        missing_files = [f for f in required_files if not os.path.exists(path + f)]
+        if not missing_files:
+            base_path = path
+            st.write(f"Pasta encontrada: {base_path}")
+            break
+    else:
+        st.write(f"Pasta {path} não encontrada.")
+
+if base_path is None:
+    st.error(f"Nenhuma pasta com todos os arquivos necessários encontrada. Arquivos esperados: {', '.join(required_files)}")
+    st.stop()
+else:
+    st.write(f"Usando base_path: {base_path}")
+    st.write(f"Arquivos em {base_path}: {os.listdir(base_path)}")
 
 # Verificar se os arquivos necessários existem
-required_files = ['customers.csv', 'products.csv', 'orders.csv', 'order_items.csv', 'rfm_segmentation.csv']
 missing_files = [f for f in required_files if not os.path.exists(base_path + f)]
 if missing_files:
     st.error(f"Arquivos ausentes em {base_path}: {', '.join(missing_files)}")
@@ -133,7 +166,7 @@ st.markdown("Gráficos interativos que refletem os filtros aplicados.")
 st.subheader("Tendência de Receita Mensal")
 st.markdown("Mostra a evolução da receita mensal com base nos filtros de meses, categorias e status.")
 if not filtered_revenue.empty:
-    fig_revenue = px.line(filtered_revenue, x='order_date', y='total_amount',
+    fig_re unfortunate = px.line(filtered_revenue, x='order_date', y='total_amount',
                           title="Receita Mensal (2024)", markers=True)
     fig_revenue.update_layout(xaxis_title="Mês", yaxis_title="Receita (R$)")
     st.plotly_chart(fig_revenue, use_container_width=True)
@@ -216,9 +249,9 @@ st.subheader("Outras Visualizações (Parte 2)")
 st.markdown("Gráficos estáticos gerados na análise exploratória.")
 try:
     st.image(base_path + 'price_distribution_by_category.png', caption="Distribuição de Preços por Categoria")
-    st.image(base_path + 'rfm_segment_distribution.png', caption="Distribuição de Segmentos RFM")
+    st.image(base_path + 'rfm_segmentation.png', caption="Distribuição de Segmentos RFM")
 except FileNotFoundError:
-    st.warning("Imagens da Parte 2 não encontradas. Verifique se estão em /app/Ecommerce_Dataset/.")
+    st.warning("Imagens da Parte 2 não encontradas. Verifique se estão em " + base_path)
 
 st.markdown("---")
 st.markdown("Dashboard criado para o desafio técnico de e-commerce, 20/07/2025.")

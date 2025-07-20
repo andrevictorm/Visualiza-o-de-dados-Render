@@ -5,7 +5,7 @@
 # Inclui KPIs (receita, ticket médio, clientes únicos/totais, pedidos, taxa de conversão),
 # gráficos (receita mensal, top produtos, receita por categoria, status de pedidos, RFM, pedidos totais)
 # e filtros (meses, categoria, status de pedido).
-# Corrige o cálculo da receita para usar total_amount e o erro de digitação em total_customers.
+# Remove dependência de monthly_revenue.csv, recalculando a receita diretamente.
 # Para executar: streamlit run dashboard.py
 # Data: 20/07/2025
 
@@ -24,18 +24,28 @@ st.markdown("Análise de vendas, clientes e produtos para 2024")
 # Caminho dos arquivos (ajuste para o ambiente local ou servidor)
 base_path = "/app/Ecommerce_Dataset/"  # Caminho para Render; ajuste para "./Ecommerce_Dataset/" se local
 
+# Verificar se os arquivos necessários existem
+required_files = ['customers.csv', 'products.csv', 'orders.csv', 'order_items.csv', 'rfm_segmentation.csv']
+missing_files = [f for f in required_files if not os.path.exists(base_path + f)]
+if missing_files:
+    st.error(f"Arquivos ausentes em {base_path}: {', '.join(missing_files)}")
+    st.stop()
+
 # Carregar CSVs
 @st.cache_data
 def load_data():
-    monthly_revenue = pd.read_csv(base_path + 'monthly_revenue.csv')
-    rfm = pd.read_csv(base_path + 'rfm_segmentation.csv')
-    orders = pd.read_csv(base_path + 'orders.csv')
-    order_items = pd.read_csv(base_path + 'order_items.csv')
-    products = pd.read_csv(base_path + 'products.csv')
-    orders['order_date'] = pd.to_datetime(orders['order_date'])
-    return monthly_revenue, rfm, orders, order_items, products
+    try:
+        rfm = pd.read_csv(base_path + 'rfm_segmentation.csv')
+        orders = pd.read_csv(base_path + 'orders.csv')
+        order_items = pd.read_csv(base_path + 'order_items.csv')
+        products = pd.read_csv(base_path + 'products.csv')
+        orders['order_date'] = pd.to_datetime(orders['order_date'])
+        return rfm, orders, order_items, products
+    except FileNotFoundError as e:
+        st.error(f"Erro ao carregar arquivos: {str(e)}")
+        st.stop()
 
-monthly_revenue, rfm, orders, order_items, products = load_data()
+rfm, orders, order_items, products = load_data()
 
 # =============================================================================
 # 1. Filtros
@@ -204,8 +214,11 @@ else:
 # 3.8. Imagens geradas na Parte 2
 st.subheader("Outras Visualizações (Parte 2)")
 st.markdown("Gráficos estáticos gerados na análise exploratória.")
-st.image(base_path + 'price_distribution_by_category.png', caption="Distribuição de Preços por Categoria")
-st.image(base_path + 'rfm_segment_distribution.png', caption="Distribuição de Segmentos RFM")
+try:
+    st.image(base_path + 'price_distribution_by_category.png', caption="Distribuição de Preços por Categoria")
+    st.image(base_path + 'rfm_segment_distribution.png', caption="Distribuição de Segmentos RFM")
+except FileNotFoundError:
+    st.warning("Imagens da Parte 2 não encontradas. Verifique se estão em /app/Ecommerce_Dataset/.")
 
 st.markdown("---")
 st.markdown("Dashboard criado para o desafio técnico de e-commerce, 20/07/2025.")

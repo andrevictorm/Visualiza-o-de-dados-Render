@@ -6,7 +6,7 @@
 # gráficos (receita mensal, top produtos, receita por categoria, status de pedidos, RFM, pedidos totais)
 # e filtros (meses, categoria, status de pedido).
 # A Receita Total respeita os filtros de meses, categorias e status, calculada diretamente de orders.csv.
-# Ajusta base_path para /app/Visualiza-o-de-dados-Render/Ecommerce_Dataset/ e melhora depuração.
+# Ajusta base_path para /opt/render/project/src/ e melhora depuração.
 # Para executar: streamlit run dashboard.py
 # Data: 20/07/2025
 
@@ -25,19 +25,25 @@ st.markdown("Análise de vendas, clientes e produtos para 2024")
 # Depuração: listar diretórios e arquivos no contêiner
 st.write("**Depuração: Estrutura de diretórios no Render**")
 st.write(f"Diretório atual: {os.getcwd()}")
-st.write(f"Conteúdo de /app/: {os.listdir('/app/')}")
-st.write(f"Conteúdo de /: {os.listdir('/')}")
-for root, dirs, files in os.walk('/app'):
+base_dir = "/opt/render/project/src/"
+st.write(f"Conteúdo de {base_dir}: ", end="")
+try:
+    st.write(os.listdir(base_dir))
+except FileNotFoundError:
+    st.write("Não encontrado")
+except PermissionError:
+    st.write("Acesso negado")
+for root, dirs, files in os.walk(base_dir):
     st.write(f"Diretório: {root}")
     st.write(f"Arquivos: {files}")
 
-# Caminho dos arquivos (testar múltiplos caminhos)
+# Caminho dos arquivos (testar múltiplos caminhos relativos a base_dir)
 possible_paths = [
-    "/app/Visualiza-o-de-dados-Render/Ecommerce_Dataset/",
-    "/app/Ecommerce_Dataset/",
-    "/app/",
-    "/app/ecommerce_dataset/",
-    "/app/ECommerce_Dataset/"
+    os.path.join(base_dir, "Visualiza-o-de-dados-Render", "Ecommerce_Dataset"),
+    os.path.join(base_dir, "Ecommerce_Dataset"),
+    base_dir,
+    os.path.join(base_dir, "ecommerce_dataset"),
+    os.path.join(base_dir, "ECommerce_Dataset")
 ]
 base_path = None
 required_files = ['customers.csv', 'products.csv', 'orders.csv', 'order_items.csv', 'rfm_segmentation.csv']
@@ -46,7 +52,7 @@ for path in possible_paths:
     if os.path.exists(path):
         st.write(f"Pasta encontrada: {path}")
         st.write(f"Arquivos em {path}: {os.listdir(path)}")
-        missing_files = [f for f in required_files if not os.path.exists(path + f)]
+        missing_files = [f for f in required_files if not os.path.exists(os.path.join(path, f))]
         if not missing_files:
             base_path = path
             break
@@ -55,13 +61,13 @@ for path in possible_paths:
 
 if base_path is None:
     st.error(f"Nenhuma pasta com todos os arquivos necessários encontrada. Arquivos esperados: {', '.join(required_files)}")
-    st.write("Por favor, verifique a estrutura do repositório no GitHub. A pasta 'Ecommerce_Dataset' deve estar em 'Visualiza-o-de-dados-Render/Ecommerce_Dataset/' ou na raiz. Compartilhe a saída desta depuração para análise.")
+    st.write("Por favor, verifique a estrutura do repositório no GitHub. A pasta 'Ecommerce_Dataset' deve estar em 'Visualiza-o-de-dados-Render/Ecommerce_Dataset/' ou na raiz. Compartilhe esta saída para análise.")
     st.stop()
 else:
     st.write(f"Usando base_path: {base_path}")
 
 # Verificar se os arquivos necessários existem
-missing_files = [f for f in required_files if not os.path.exists(base_path + f)]
+missing_files = [f for f in required_files if not os.path.join(base_path, f)]
 if missing_files:
     st.error(f"Arquivos ausentes em {base_path}: {', '.join(missing_files)}")
     st.stop()
@@ -70,10 +76,10 @@ if missing_files:
 @st.cache_data
 def load_data():
     try:
-        rfm = pd.read_csv(base_path + 'rfm_segmentation.csv')
-        orders = pd.read_csv(base_path + 'orders.csv')
-        order_items = pd.read_csv(base_path + 'order_items.csv')
-        products = pd.read_csv(base_path + 'products.csv')
+        rfm = pd.read_csv(os.path.join(base_path, 'rfm_segmentation.csv'))
+        orders = pd.read_csv(os.path.join(base_path, 'orders.csv'))
+        order_items = pd.read_csv(os.path.join(base_path, 'order_items.csv'))
+        products = pd.read_csv(os.path.join(base_path, 'products.csv'))
         orders['order_date'] = pd.to_datetime(orders['order_date'])
         return rfm, orders, order_items, products
     except FileNotFoundError as e:
@@ -258,8 +264,8 @@ else:
 st.subheader("Outras Visualizações (Parte 2)")
 st.markdown("Gráficos estáticos gerados na análise exploratória.")
 try:
-    st.image(base_path + 'price_distribution_by_category.png', caption="Distribuição de Preços por Categoria")
-    st.image(base_path + 'rfm_segmentation.png', caption="Distribuição de Segmentos RFM")
+    st.image(os.path.join(base_path, 'price_distribution_by_category.png'), caption="Distribuição de Preços por Categoria")
+    st.image(os.path.join(base_path, 'rfm_segmentation.png'), caption="Distribuição de Segmentos RFM")
 except FileNotFoundError:
     st.warning(f"Imagens da Parte 2 não encontradas. Verifique se estão em {base_path}")
 

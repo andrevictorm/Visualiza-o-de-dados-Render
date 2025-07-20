@@ -5,7 +5,7 @@
 # Inclui KPIs (receita, ticket médio, clientes únicos/totais, pedidos, taxa de conversão),
 # gráficos (receita mensal, top produtos, receita por categoria, status de pedidos, RFM, pedidos totais)
 # e filtros (meses, categoria, status de pedido).
-# Corrige o cálculo da receita para usar total_amount diretamente e refletir todos os filtros.
+# Corrige o cálculo da receita para usar total_amount e o erro de digitação em total_customers.
 # Para executar: streamlit run dashboard.py
 # Data: 20/07/2025
 
@@ -22,7 +22,7 @@ st.title("📊 Dashboard Interativo de E-commerce")
 st.markdown("Análise de vendas, clientes e produtos para 2024")
 
 # Caminho dos arquivos (ajuste para o ambiente local ou servidor)
-base_path = "./Ecommerce_Dataset/"  # Substitua pelo caminho correto no seu ambiente
+base_path = "/app/Ecommerce_Dataset/"  # Caminho para Render; ajuste para "./Ecommerce_Dataset/" se local
 
 # Carregar CSVs
 @st.cache_data
@@ -103,7 +103,7 @@ total_revenue = filtered_orders['total_amount'].sum()
 unique_customers = filtered_orders['customer_id'].nunique()
 total_orders = len(filtered_orders)
 avg_ticket = total_revenue / total_orders if total_orders > 0 else 0
-total_customウスers = len(filtered_orders)  # Contagem de pedidos (clientes totais)
+total_customers = len(filtered_orders)  # Contagem de pedidos (clientes totais)
 conversion_rate = (len(filtered_orders[filtered_orders['status'] == 'Entregue']) / len(orders)) * 100 if len(orders) > 0 else 0
 
 col1.metric("Receita Total (2024)", f"R$ {total_revenue:,.2f}")

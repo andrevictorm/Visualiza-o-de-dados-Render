@@ -3,9 +3,9 @@
 # =============================================================================
 # Este dashboard exibe KPIs e gráficos interativos para o desafio técnico de e-commerce.
 # Inclui KPIs (receita, ticket médio, clientes únicos/totais, pedidos, taxa de conversão),
-# gráficos (receita mensal, top produtos, receita por categoria, status de pedidos, RFM, pedidos totais)
-# e filtros (meses, categoria, status de pedido).
-# A Receita Total respeita os filtros de meses, categorias e status, calculada diretamente de orders.csv.
+# gráficos (receita mensal, top produtos, receita por categoria, status de pedidos, RFM, pedidos totais, receita por estado)
+# e filtros (meses, categoria, status de pedido, estado).
+# A Receita Total respeita os filtros de meses, categorias, status e estado, calculada diretamente de orders.csv.
 # Ajusta base_path para /opt/render/project/src/ e melhora depuração.
 # Para executar: streamlit run dashboard.py
 # Data: 20/07/2025
@@ -22,20 +22,20 @@ st.set_page_config(page_title="Dashboard E-commerce", layout="wide")
 st.title("📊 Dashboard Interativo de E-commerce")
 st.markdown("Análise de vendas, clientes e produtos para 2024")
 
-# Depuração: listar diretórios e arquivos no contêiner
-st.write("**Depuração: Estrutura de diretórios no Render**")
-st.write(f"Diretório atual: {os.getcwd()}")
-base_dir = "/opt/render/project/src/"
-st.write(f"Conteúdo de {base_dir}: ", end="")
-try:
-    st.write(os.listdir(base_dir))
-except FileNotFoundError:
-    st.write("Não encontrado")
-except PermissionError:
-    st.write("Acesso negado")
-for root, dirs, files in os.walk(base_dir):
-    st.write(f"Diretório: {root}")
-    st.write(f"Arquivos: {files}")
+# Depuração: listar diretórios e arquivos no contêiner (opcional)
+with st.expander("Depuração: Estrutura de diretórios no Render"):
+    st.write(f"Diretório atual: {os.getcwd()}")
+    base_dir = "/opt/render/project/src/"
+    st.write(f"Conteúdo de {base_dir}: ", end="")
+    try:
+        st.write(os.listdir(base_dir))
+    except FileNotFoundError:
+        st.write("Não encontrado")
+    except PermissionError:
+        st.write("Acesso negado")
+    for root, dirs, files in os.walk(base_dir):
+        st.write(f"Diretório: {root}")
+        st.write(f"Arquivos: {files}")
 
 # Caminho dos arquivos (testar múltiplos caminhos relativos a base_dir)
 possible_paths = [
@@ -80,13 +80,14 @@ def load_data():
         orders = pd.read_csv(os.path.join(base_path, 'orders.csv'))
         order_items = pd.read_csv(os.path.join(base_path, 'order_items.csv'))
         products = pd.read_csv(os.path.join(base_path, 'products.csv'))
+        customers = pd.read_csv(os.path.join(base_path, 'customers.csv'))  # Carregar customers.csv para estado
         orders['order_date'] = pd.to_datetime(orders['order_date'])
-        return rfm, orders, order_items, products
+        return rfm, orders, order_items, products, customers
     except FileNotFoundError as e:
         st.error(f"Erro ao carregar arquivos: {str(e)}")
         st.stop()
 
-rfm, orders, order_items, products = load_data()
+rfm, orders, order_items, products, customers = load_data()
 
 # =============================================================================
 # 1. Filtros
@@ -94,7 +95,7 @@ rfm, orders, order_items, products = load_data()
 st.header("1. Filtros")
 st.markdown("Selecione os filtros para personalizar os KPIs e gráficos.")
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     months = sorted(orders['order_date'].dt.strftime('%Y-%m').unique().tolist())
@@ -108,9 +109,14 @@ with col3:
     statuses = sorted(orders['status'].unique().tolist())
     selected_statuses = st.multiselect("Selecione os status de pedido", statuses, default=['Entregue'])
 
+with col4:
+    states = sorted(customers['state'].unique().tolist())
+    selected_states = st.multiselect("Selecione os estados", states, default=states)
+
 # Filtrar dados
 filtered_orders = orders[orders['order_date'].dt.strftime('%Y-%m').isin(selected_months) & 
                         orders['status'].isin(selected_statuses)]
+filtered_orders = filtered_orders[filtered_orders['customer_id'].isin(customers[customers['state'].isin(selected_states)]['customer_id'])]
 filtered_order_items = order_items[order_items['order_id'].isin(filtered_orders['order_id'])]
 filtered_products = products[products['category'].isin(selected_categories)]
 filtered_order_items = filtered_order_items[filtered_order_items['product_id'].isin(filtered_products['product_id'])]
@@ -124,6 +130,16 @@ filtered_revenue = filtered_orders.merge(filtered_order_items, on='order_id') \
                                  .agg({'item_revenue': 'sum'}) \
                                  .reset_index() \
                                  .rename(columns={'item_revenue': 'total_amount', 'order_date': 'order_date'})
+
+# Calcular receita por estado
+filtered_revenue_by_state = filtered_orders.merge(filtered_order_items, on='order_id') \
+                                          .merge(filtered_products, on='product_id') \
+                                          .merge(customers, on='customer_id') \
+                                          .assign(item_revenue=lambda x: x['quantity'] * x['unit_price']) \
+                                          .groupby('state') \
+                                          .agg({'item_revenue': 'sum'}) \
+                                          .reset_index() \
+                                          .rename(columns={'item_revenue': 'total_revenue'})
 
 # Calcular top 5 produtos por receita
 filtered_top_products = filtered_order_items.merge(filtered_orders, on='order_id') \
@@ -157,18 +173,17 @@ col4, col5, col6 = st.columns(3)
 # Calcular Receita Total com base nos filtros
 total_revenue = filtered_order_items.merge(filtered_orders, on='order_id') \
                                    .merge(filtered_products, on='product_id') \
-                                   .assign(item_revenue=lambda x: x['quantity'] * x['unit_price']) \
                                    ['item_revenue'].sum()
 unique_customers = filtered_orders['customer_id'].nunique()
 total_orders = len(filtered_orders)
 avg_ticket = total_revenue / total_orders if total_orders > 0 else 0
-total_customers = len(filtered_orders)  # Contagem de pedidos (clientes totais)
+avg_orders_per_customer = total_orders / unique_customers if unique_customers > 0 else 0
 conversion_rate = (len(filtered_orders[filtered_orders['status'] == 'Entregue']) / len(orders)) * 100 if len(orders) > 0 else 0
 
 col1.metric("Receita Total (2024)", f"R$ {total_revenue:,.2f}")
 col2.metric("Ticket Médio", f"R$ {avg_ticket:,.2f}")
 col3.metric("Clientes Únicos", f"{unique_customers:,}")
-col4.metric("Clientes Totais (Pedidos)", f"{total_customers:,}")
+col4.metric("Média de Pedidos por Cliente", f"{avg_orders_per_customer:.2f}")
 col5.metric("Total de Pedidos", f"{total_orders:,}")
 col6.metric("Taxa de Conversão (Entregues)", f"{conversion_rate:.2f}%")
 
@@ -260,12 +275,23 @@ if not rfm.empty:
 else:
     st.warning("Nenhum dado disponível para os filtros selecionados.")
 
-# 3.8. Imagens geradas na Parte 2
+# 3.8. Receita por Estado
+st.subheader("Receita por Estado")
+st.markdown("Mostra a receita total por estado, com base nos filtros aplicados.")
+if not filtered_revenue_by_state.empty:
+    fig_state = px.bar(filtered_revenue_by_state, x='state', y='total_revenue',
+                       title="Receita por Estado")
+    fig_state.update_layout(xaxis_title="Estado", yaxis_title="Receita (R$)", xaxis_tickangle=45)
+    st.plotly_chart(fig_state, use_container_width=True)
+else:
+    st.warning("Nenhum dado disponível para os filtros selecionados.")
+
+# 3.9. Imagens geradas na Parte 2
 st.subheader("Outras Visualizações (Parte 2)")
 st.markdown("Gráficos estáticos gerados na análise exploratória.")
 try:
     st.image(os.path.join(base_path, 'price_distribution_by_category.png'), caption="Distribuição de Preços por Categoria")
-    st.image(os.path.join(base_path, 'rfm_segmentation.png'), caption="Distribuição de Segmentos RFM")
+    st.image(os.path.join(base_path, 'rfm_segment_distribution.png'), caption="Distribuição de Segmentos RFM")
 except FileNotFoundError:
     st.warning(f"Imagens da Parte 2 não encontradas. Verifique se estão em {base_path}")
 

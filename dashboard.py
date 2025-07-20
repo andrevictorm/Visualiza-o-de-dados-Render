@@ -5,7 +5,7 @@
 # Inclui KPIs (receita, ticket médio, clientes únicos/totais, pedidos, taxa de conversão),
 # gráficos (receita mensal, top produtos, receita por categoria, status de pedidos, RFM, pedidos totais)
 # e filtros (meses, categoria, status de pedido).
-# Adiciona depuração detalhada para encontrar arquivos no Render.
+# Corrige erro de sintaxe (fig_re unfortunate) e mantém depuração para encontrar arquivos no Render.
 # Para executar: streamlit run dashboard.py
 # Data: 20/07/2025
 
@@ -166,7 +166,7 @@ st.markdown("Gráficos interativos que refletem os filtros aplicados.")
 st.subheader("Tendência de Receita Mensal")
 st.markdown("Mostra a evolução da receita mensal com base nos filtros de meses, categorias e status.")
 if not filtered_revenue.empty:
-    fig_re unfortunate = px.line(filtered_revenue, x='order_date', y='total_amount',
+    fig_revenue = px.line(filtered_revenue, x='order_date', y='total_amount',
                           title="Receita Mensal (2024)", markers=True)
     fig_revenue.update_layout(xaxis_title="Mês", yaxis_title="Receita (R$)")
     st.plotly_chart(fig_revenue, use_container_width=True)
@@ -251,7 +251,7 @@ try:
     st.image(base_path + 'price_distribution_by_category.png', caption="Distribuição de Preços por Categoria")
     st.image(base_path + 'rfm_segmentation.png', caption="Distribuição de Segmentos RFM")
 except FileNotFoundError:
-    st.warning("Imagens da Parte 2 não encontradas. Verifique se estão em " + base_path)
+    st.warning(f"Imagens da Parte 2 não encontradas. Verifique se estão em {base_path}")
 
 st.markdown("---")
 st.markdown("Dashboard criado para o desafio técnico de e-commerce, 20/07/2025.")

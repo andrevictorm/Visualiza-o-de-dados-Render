@@ -273,4 +273,19 @@ st.markdown("""
   - `customers`: 10.000 clientes, com 8.864 nomes únicos e 2.973 cidades.
   - `products`: 500 produtos, com preços variando de 15,53 a 2.971,16 reais (média de R$485,32).
   - `orders`: 50.000 pedidos, com `total_amount` de 12,75 a 14.617,32 reais (média de R$1.211,58).
-  - `order_items`: 101.382 itens, com quantidades de 1 a 3 e preços unitários de 12,43 a 3.118,
+  - `order_items`: 101.382 itens, com quantidades de 1 a 3 e preços unitários de 12,43 a 3.118,45 reais.
+- **Outliers**: 3.481 pedidos com valores extremos em `total_amount`, indicando compras de alto valor (ex.: R$10.873,03).
+- **Gráficos**: Boxplot de preços por categoria e histograma de valores de pedidos mostram a distribuição dos dados.
+
+### Análise Temporal:
+- **Receita mensal**: Confirma o padrão sazonal, com picos em novembro (6,4M) e dezembro (5,8M).
+- **Crescimento mês a mês**: Variações significativas, como +30,02% em novembro e -9,50% em dezembro.
+- **Clientes únicos**: Pico em novembro (4.593 clientes), consistente com a sazonalidade.
+
+### Segmentação RFM:
+- Clientes segmentados em VIP, Regular, Ocasional e Inativo com base em recência, frequência e monetário.
+- Exemplo: João Guilherme da Cruz (RFM_score=10, VIP) comprou recentemente (16 dias), 5 vezes, gastando R$7.031,01.
+""")
+
+st.markdown("---")
+st.markdown("Dashboard otimizado, 20/07/2025")

@@ -6,7 +6,7 @@
 # gráficos (receita mensal, top produtos, receita por categoria, status de pedidos, RFM, pedidos totais)
 # e filtros (meses, categoria, status de pedido).
 # A Receita Total respeita os filtros de meses, categorias e status, calculada diretamente de orders.csv.
-# Corrige erro de sintaxe (filtered hunting_customers).
+# Ajusta base_path para /app/Visualiza-o-de-dados-Render/Ecommerce_Dataset/ e melhora depuração.
 # Para executar: streamlit run dashboard.py
 # Data: 20/07/2025
 
@@ -22,24 +22,49 @@ st.set_page_config(page_title="Dashboard E-commerce", layout="wide")
 st.title("📊 Dashboard Interativo de E-commerce")
 st.markdown("Análise de vendas, clientes e produtos para 2024")
 
-# Caminho dos arquivos
-base_path = "/app/Ecommerce_Dataset/"  # Para Render; use "./Ecommerce_Dataset/" para teste local
-
-# Verificar se os arquivos necessários existem
-required_files = ['customers.csv', 'products.csv', 'orders.csv', 'order_items.csv', 'rfm_segmentation.csv']
-missing_files = [f for f in required_files if not os.path.exists(base_path + f)]
-if missing_files:
-    st.error(f"Arquivos ausentes em {base_path}: {', '.join(missing_files)}")
-    st.stop()
-
 # Depuração: listar diretórios e arquivos no contêiner
 st.write("**Depuração: Estrutura de diretórios no Render**")
 st.write(f"Diretório atual: {os.getcwd()}")
 st.write(f"Conteúdo de /app/: {os.listdir('/app/')}")
-if os.path.exists(base_path):
-    st.write(f"Conteúdo de {base_path}: {os.listdir(base_path)}")
+st.write(f"Conteúdo de /: {os.listdir('/')}")
+for root, dirs, files in os.walk('/app'):
+    st.write(f"Diretório: {root}")
+    st.write(f"Arquivos: {files}")
+
+# Caminho dos arquivos (testar múltiplos caminhos)
+possible_paths = [
+    "/app/Visualiza-o-de-dados-Render/Ecommerce_Dataset/",
+    "/app/Ecommerce_Dataset/",
+    "/app/",
+    "/app/ecommerce_dataset/",
+    "/app/ECommerce_Dataset/"
+]
+base_path = None
+required_files = ['customers.csv', 'products.csv', 'orders.csv', 'order_items.csv', 'rfm_segmentation.csv']
+
+for path in possible_paths:
+    if os.path.exists(path):
+        st.write(f"Pasta encontrada: {path}")
+        st.write(f"Arquivos em {path}: {os.listdir(path)}")
+        missing_files = [f for f in required_files if not os.path.exists(path + f)]
+        if not missing_files:
+            base_path = path
+            break
+    else:
+        st.write(f"Pasta {path} não encontrada.")
+
+if base_path is None:
+    st.error(f"Nenhuma pasta com todos os arquivos necessários encontrada. Arquivos esperados: {', '.join(required_files)}")
+    st.write("Por favor, verifique a estrutura do repositório no GitHub. A pasta 'Ecommerce_Dataset' deve estar em 'Visualiza-o-de-dados-Render/Ecommerce_Dataset/' ou na raiz. Compartilhe a saída desta depuração para análise.")
+    st.stop()
 else:
-    st.error(f"Pasta {base_path} não encontrada.")
+    st.write(f"Usando base_path: {base_path}")
+
+# Verificar se os arquivos necessários existem
+missing_files = [f for f in required_files if not os.path.exists(base_path + f)]
+if missing_files:
+    st.error(f"Arquivos ausentes em {base_path}: {', '.join(missing_files)}")
+    st.stop()
 
 # Carregar CSVs
 @st.cache_data
@@ -123,7 +148,7 @@ st.markdown("Resumo das métricas principais com base nos filtros selecionados."
 col1, col2, col3 = st.columns(3)
 col4, col5, col6 = st.columns(3)
 
-# Calcular Receita Total com base nos filtros (usando filtered_order_items para incluir categorias)
+# Calcular Receita Total com base nos filtros
 total_revenue = filtered_order_items.merge(filtered_orders, on='order_id') \
                                    .merge(filtered_products, on='product_id') \
                                    .assign(item_revenue=lambda x: x['quantity'] * x['unit_price']) \

@@ -21,7 +21,7 @@ st.markdown("Análise de vendas, clientes e produtos para 2024")
 
 # Caminho dos arquivos
 base_dir = "/opt/render/project/src/"
-base_path = os.path.join(base_dir, "Ecommerce_Dataset")  # Ajustado com base no sucesso anterior
+base_path = os.path.join(base_dir, "Ecommerce_Dataset")
 required_files = ['customers.csv', 'products.csv', 'orders.csv', 'order_items.csv', 'rfm_segmentation.csv']
 
 if not all(os.path.exists(os.path.join(base_path, f)) for f in required_files):
@@ -43,7 +43,7 @@ rfm, orders, order_items, products, customers = load_data()
 
 # Filtros
 st.header("1. Filtros")
-col1, col2, col3, col4, col5 = st.columns(5)  # Aumentado para 5 colunas
+col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
     months = sorted(orders['order_date'].dt.strftime('%Y-%m').unique().tolist())
@@ -157,7 +157,7 @@ def get_visualizations(orders, order_items, products, filtered_orders, filtered_
                                     .groupby(filtered_orders['order_date'].dt.strftime('%Y-%m')) \
                                     .agg({'item_revenue': 'sum'}) \
                                     .reset_index() \
-                                    .rename(columns={'item_revenue': 'total_amount', 'order_date': 'order_date'})
+                                    .rename(columns={'item_revenue': 'total_amount', 'order_date': 'month'}) # Renamed for clarity
 
     # Status de Pedidos (com filtros)
     status_counts = filtered_orders['status'].value_counts().reset_index()
@@ -166,157 +166,198 @@ def get_visualizations(orders, order_items, products, filtered_orders, filtered_
     # Clientes Únicos por Mês (com filtros)
     monthly_customers = filtered_orders.groupby(filtered_orders['order_date'].dt.strftime('%Y-%m'))['customer_id'] \
                                       .nunique().reset_index(name='unique_customers')
+    monthly_customers.rename(columns={'order_date': 'month'}, inplace=True) # Renamed for consistency
 
     # Pedidos Totais por Mês (com filtros)
     total_orders_by_month = filtered_orders.groupby(filtered_orders['order_date'].dt.strftime('%Y-%m')) \
                                           .size().reset_index(name='total_orders')
+    total_orders_by_month.rename(columns={'order_date': 'month'}, inplace=True) # Renamed for consistency
 
-    return top_products, revenue_by_category, revenue_by_state, revenue_monthly, status_counts, monthly_customers, total_orders_by_month
+    # Novos Clientes por Mês
+    first_orders = orders.sort_values('order_date').drop_duplicates('customer_id', keep='first')
+    new_customers_monthly = first_orders.groupby(first_orders['order_date'].dt.strftime('%Y-%m'))['customer_id'].nunique().reset_index()
+    new_customers_monthly.columns = ['month', 'new_customers']
 
-top_products, revenue_by_category, revenue_by_state, revenue_monthly, status_counts, monthly_customers, total_orders_by_month = get_visualizations(
+    # Clientes por Categoria
+    clientes_categoria = order_items.merge(orders, on='order_id') \
+                                     .merge(products, on='product_id') \
+                                     .groupby('category')['customer_id'] \
+                                     .nunique().reset_index(name='unique_customers')
+
+    # Clientes por Estado
+    clientes_por_estado = customers['state'].value_counts().reset_index()
+    clientes_por_estado.columns = ['state', 'count']
+
+    return top_products, revenue_by_category, revenue_by_state, revenue_monthly, status_counts, monthly_customers, total_orders_by_month, new_customers_monthly, clientes_categoria, clientes_por_estado
+
+top_products, revenue_by_category, revenue_by_state, revenue_monthly, status_counts, monthly_customers, total_orders_by_month, new_customers_monthly, clientes_categoria, clientes_por_estado = get_visualizations(
     orders, order_items, products, filtered_orders, filtered_order_items, filtered_products, customers, rfm
 )
 
-# Gráficos
-# 3.1. Top 5 Produtos
-st.subheader("Top 5 Produtos por Receita")
-if not top_products.empty:
-    fig_top = px.bar(top_products, x='product_name', y='total_revenue', color='category',
-                     title="Top 5 Produtos por Receita")
-    fig_top.update_layout(xaxis_title="Produto", yaxis_title="Receita (R$)", xaxis_tickangle=45)
-    st.plotly_chart(fig_top, use_container_width=True)
-else:
-    st.warning("Nenhum dado disponível.")
+# Gráficos (Organized logically)
 
-# 3.2. Receita por Categoria
-st.subheader("Receita por Categoria")
+# --- Sales Performance Visualizations ---
+st.subheader("Desempenho de Vendas")
+
+# 3.1. Tendência de Receita Mensal
+st.markdown("#### Tendência de Receita Mensal")
+if not revenue_monthly.empty:
+    fig_month = px.line(revenue_monthly, x='month', y='total_amount',
+                        title="Receita Mensal (2024)", markers=True)
+    fig_month.update_layout(xaxis_title="Mês", yaxis_title="Receita (R$)")
+    st.plotly_chart(fig_month, use_container_width=True)
+else:
+    st.warning("Nenhum dado de receita mensal disponível.")
+
+# 3.2. Receita: Mês Atual vs Mês Anterior (for all months)
+st.markdown("#### Variação Percentual da Receita Mês a Mês")
+if not revenue_monthly.empty and len(revenue_monthly) > 1:
+    revenue_monthly_sorted = revenue_monthly.sort_values('month')
+    monthly_comparison = []
+    for i in range(1, len(revenue_monthly_sorted)):
+        current_month_data = revenue_monthly_sorted.iloc[i]
+        previous_month_data = revenue_monthly_sorted.iloc[i-1]
+        
+        current_month = current_month_data['month']
+        current_revenue = current_month_data['total_amount']
+        previous_revenue = previous_month_data['total_amount']
+        
+        delta = current_revenue - previous_revenue
+        percent_change = (delta / previous_revenue) * 100 if previous_revenue > 0 else 0
+        
+        monthly_comparison.append({
+            'Mês': current_month,
+            'Receita Atual': current_revenue,
+            'Receita Anterior': previous_revenue,
+            'Variação Percentual': percent_change
+        })
+    
+    monthly_comparison_df = pd.DataFrame(monthly_comparison)
+    
+    fig_monthly_delta = px.line(monthly_comparison_df, x='Mês', y='Variação Percentual', 
+                                title="Variação % da Receita Mês a Mês", markers=True)
+    fig_monthly_delta.update_layout(xaxis_title="Mês", yaxis_title="Variação Percentual (%)")
+    st.plotly_chart(fig_monthly_delta, use_container_width=True)
+else:
+    st.info("Dados insuficientes para comparação mensal da receita.")
+
+
+# 3.3. Receita por Categoria
+st.markdown("#### Receita por Categoria")
 if not revenue_by_category.empty:
     fig_cat = px.bar(revenue_by_category, x='category', y='total_revenue',
                      title="Receita por Categoria")
     fig_cat.update_layout(xaxis_title="Categoria", yaxis_title="Receita (R$)")
     st.plotly_chart(fig_cat, use_container_width=True)
 else:
-    st.warning("Nenhum dado disponível.")
+    st.warning("Nenhum dado de receita por categoria disponível.")
 
-# 3.3. Receita por Estado
-st.subheader("Receita por Estado")
+# 3.4. Top 5 Produtos
+st.markdown("#### Top 5 Produtos por Receita")
+if not top_products.empty:
+    fig_top = px.bar(top_products, x='product_name', y='total_revenue', color='category',
+                     title="Top 5 Produtos por Receita")
+    fig_top.update_layout(xaxis_title="Produto", yaxis_title="Receita (R$)", xaxis_tickangle=45)
+    st.plotly_chart(fig_top, use_container_width=True)
+else:
+    st.warning("Nenhum dado de top produtos disponível.")
+
+# --- Customer & Order Metrics Visualizations ---
+st.subheader("Métricas de Clientes e Pedidos")
+
+# 3.5. Total Pedidos por Mês
+st.markdown("#### Pedidos Totais por Mês")
+if not total_orders_by_month.empty:
+    fig_orders = px.line(total_orders_by_month, x='month', y='total_orders',
+                         title="Pedidos Totais por Mês", markers=True)
+    fig_orders.update_layout(xaxis_title="Mês", yaxis_title="Total Pedidos")
+    st.plotly_chart(fig_orders, use_container_width=True)
+else:
+    st.warning("Nenhum dado de pedidos totais por mês disponível.")
+
+# 3.6. Clientes Únicos por Mês
+st.markdown("#### Clientes Únicos por Mês")
+if not monthly_customers.empty:
+    fig_cust = px.line(monthly_customers, x='month', y='unique_customers',
+                       title="Clientes Únicos por Mês", markers=True)
+    fig_cust.update_layout(xaxis_title="Mês", yaxis_title="Clientes Únicos")
+    st.plotly_chart(fig_cust, use_container_width=True)
+else:
+    st.warning("Nenhum dado de clientes únicos por mês disponível.")
+
+# 3.7. Novos Clientes por Mês
+st.markdown("#### Novos Clientes por Mês")
+if not new_customers_monthly.empty:
+    fig_new_customers = px.line(new_customers_monthly, x='month', y='new_customers', markers=True,
+                                title="Novos Clientes por Mês")
+    fig_new_customers.update_layout(xaxis_title="Mês", yaxis_title="Novos Clientes")
+    st.plotly_chart(fig_new_customers, use_container_width=True)
+else:
+    st.warning("Nenhum dado de novos clientes por mês disponível.")
+
+# 3.8. Distribuição de Clientes por Região (Estado)
+st.markdown("#### Distribuição de Clientes por Região (Estado)")
+if not clientes_por_estado.empty:
+    fig_clients_state = px.bar(clientes_por_estado, x='state', y='count',
+                               title="Clientes por Estado",
+                               labels={'state': 'Estado', 'count': 'Número de Clientes'})
+    st.plotly_chart(fig_clients_state, use_container_width=True)
+else:
+    st.warning("Nenhum dado de clientes por estado disponível.")
+
+# 3.9. Clientes por Categoria
+st.markdown("#### Clientes por Categoria")
+if not clientes_categoria.empty:
+    fig_clientes_cat = px.bar(clientes_categoria, x='category', y='unique_customers',
+                              title="Clientes por Categoria",
+                              labels={'category': 'Categoria', 'unique_customers': 'Clientes Únicos'})
+    st.plotly_chart(fig_clientes_cat, use_container_width=True)
+else:
+    st.warning("Nenhum dado de clientes por categoria disponível.")
+
+# --- Geographic & Status Visualizations ---
+st.subheader("Análise Geográfica e Status")
+
+# 3.10. Receita por Estado
+st.markdown("#### Receita por Estado")
 if not revenue_by_state.empty:
     fig_state = px.bar(revenue_by_state, x='state', y='total_revenue',
                        title="Receita por Estado")
     fig_state.update_layout(xaxis_title="Estado", yaxis_title="Receita (R$)", xaxis_tickangle=45)
     st.plotly_chart(fig_state, use_container_width=True)
 else:
-    st.warning("Nenhum dado disponível.")
+    st.warning("Nenhum dado de receita por estado disponível.")
 
-# 3.4. Tendência de Receita Mensal
-st.subheader("Tendência de Receita Mensal")
-if not revenue_monthly.empty:
-    fig_month = px.line(revenue_monthly, x='order_date', y='total_amount',
-                        title="Receita Mensal (2024)", markers=True)
-    fig_month.update_layout(xaxis_title="Mês", yaxis_title="Receita (R$)")
-    st.plotly_chart(fig_month, use_container_width=True)
-else:
-    st.warning("Nenhum dado disponível.")
-
-# ============================================================
-# 🔹 1. Receita: Mês Atual vs Mês Anterior
-# (colar logo após o gráfico de Tendência de Receita Mensal)
-# ============================================================
-st.subheader("Receita: Mês Atual vs Mês Anterior")
-if not revenue_monthly.empty and len(revenue_monthly) >= 2:
-    current_month = revenue_monthly.iloc[-1]
-    previous_month = revenue_monthly.iloc[-2]
-    delta = current_month['total_amount'] - previous_month['total_amount']
-    percent = (delta / previous_month['total_amount']) * 100 if previous_month['total_amount'] > 0 else 0
-    colA, colB = st.columns(2)
-    colA.metric("Receita Mês Atual", f"R$ {current_month['total_amount']:,.2f}", f"{percent:.2f}%", delta_color="normal")
-    colB.metric("Receita Mês Anterior", f"R$ {previous_month['total_amount']:,.2f}")
-else:
-    st.info("Dados insuficientes para comparação entre meses.")
-
-# 3.5. Distribuição de Status
-st.subheader("Distribuição de Status de Pedidos")
+# 3.11. Distribuição de Status
+st.markdown("#### Distribuição de Status de Pedidos")
 if not status_counts.empty:
     fig_status = px.pie(status_counts, names='status', values='count',
                         title="Distribuição de Status")
     st.plotly_chart(fig_status, use_container_width=True)
 else:
-    st.warning("Nenhum dado disponível.")
+    st.warning("Nenhum dado de status de pedidos disponível.")
 
-# 3.6. Clientes Únicos por Mês
-st.subheader("Clientes Únicos por Mês")
-if not monthly_customers.empty:
-    fig_cust = px.line(monthly_customers, x='order_date', y='unique_customers',
-                       title="Clientes Únicos por Mês", markers=True)
-    fig_cust.update_layout(xaxis_title="Mês", yaxis_title="Clientes Únicos")
-    st.plotly_chart(fig_cust, use_container_width=True)
-else:
-    st.warning("Nenhum dado disponível.")
+# --- RFM Visualizations ---
+st.subheader("Segmentação RFM")
 
-# 3.7. Pedidos Totais por Mês
-st.subheader("Pedidos Totais por Mês")
-if not total_orders_by_month.empty:
-    fig_orders = px.line(total_orders_by_month, x='order_date', y='total_orders',
-                         title="Pedidos Totais por Mês", markers=True)
-    fig_orders.update_layout(xaxis_title="Mês", yaxis_title="Total Pedidos")
-    st.plotly_chart(fig_orders, use_container_width=True)
-else:
-    st.warning("Nenhum dado disponível.")
-
-# 3.8. Segmentos RFM
-st.subheader("Distribuição de Segmentos RFM")
+# 3.12. Segmentos RFM (Histogram)
+st.markdown("#### Distribuição de Segmentos RFM")
 if not rfm.empty:
     fig_rfm = px.histogram(rfm, x='segment', category_orders={"segment": ["VIP", "Regular", "Ocasional", "Inativo"]},
                            title="Segmentação de Clientes")
     fig_rfm.update_layout(xaxis_title="Segmento", yaxis_title="Contagem")
     st.plotly_chart(fig_rfm, use_container_width=True)
 else:
-    st.warning("Nenhum dado disponível.")
+    st.warning("Nenhum dado de RFM disponível.")
 
-# ============================================================
-# 🔹 2. Distribuição de Clientes por Região (Estado)
-# ============================================================
-st.subheader("Distribuição de Clientes por Região (Estado)")
-clientes_por_estado = customers['state'].value_counts().reset_index()
-clientes_por_estado.columns = ['state', 'count']
-fig_clients_state = px.bar(clientes_por_estado, x='state', y='count',
-                           title="Clientes por Estado",
-                           labels={'state': 'Estado', 'count': 'Número de Clientes'})
-st.plotly_chart(fig_clients_state, use_container_width=True)
-
-# ============================================================
-# 🔹 3. Novos Clientes por Mês
-# ============================================================
-st.subheader("Novos Clientes por Mês")
-first_orders = orders.sort_values('order_date').drop_duplicates('customer_id', keep='first')
-new_customers_monthly = first_orders.groupby(first_orders['order_date'].dt.strftime('%Y-%m'))['customer_id'].nunique().reset_index()
-new_customers_monthly.columns = ['month', 'new_customers']
-fig_new_customers = px.line(new_customers_monthly, x='month', y='new_customers', markers=True,
-                            title="Novos Clientes por Mês")
-fig_new_customers.update_layout(xaxis_title="Mês", yaxis_title="Novos Clientes")
-st.plotly_chart(fig_new_customers, use_container_width=True)
-
-# ============================================================
-# 🔹 4. Clientes por Categoria
-# ============================================================
-st.subheader("Clientes por Categoria")
-clientes_categoria = order_items.merge(orders, on='order_id') \
-                                 .merge(products, on='product_id') \
-                                 .groupby('category')['customer_id'] \
-                                 .nunique().reset_index(name='unique_customers')
-fig_clientes_cat = px.bar(clientes_categoria, x='category', y='unique_customers',
-                          title="Clientes por Categoria",
-                          labels={'category': 'Categoria', 'unique_customers': 'Clientes Únicos'})
-st.plotly_chart(fig_clientes_cat, use_container_width=True)
-
-
-# 3.9. Imagens estáticas
-st.subheader("Visualizações Estáticas")
+# 3.13. Imagens estáticas (RFM related)
+st.markdown("#### Visualizações Estáticas")
 try:
     st.image(os.path.join(base_path, 'price_distribution_by_category.png'), caption="Preços por Categoria")
     st.image(os.path.join(base_path, 'rfm_segment_distribution.png'), caption="Segmentos RFM")
 except FileNotFoundError:
     st.warning(f"Imagens não encontradas em {base_path}")
+
 
 # Relatório Resumo
 st.header("Resumo dos Resultados")

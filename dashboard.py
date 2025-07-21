@@ -218,6 +218,22 @@ if not revenue_monthly.empty:
 else:
     st.warning("Nenhum dado disponível.")
 
+# ============================================================
+# 🔹 1. Receita: Mês Atual vs Mês Anterior
+# (colar logo após o gráfico de Tendência de Receita Mensal)
+# ============================================================
+st.subheader("Receita: Mês Atual vs Mês Anterior")
+if not revenue_monthly.empty and len(revenue_monthly) >= 2:
+    current_month = revenue_monthly.iloc[-1]
+    previous_month = revenue_monthly.iloc[-2]
+    delta = current_month['total_amount'] - previous_month['total_amount']
+    percent = (delta / previous_month['total_amount']) * 100 if previous_month['total_amount'] > 0 else 0
+    colA, colB = st.columns(2)
+    colA.metric("Receita Mês Atual", f"R$ {current_month['total_amount']:,.2f}", f"{percent:.2f}%", delta_color="normal")
+    colB.metric("Receita Mês Anterior", f"R$ {previous_month['total_amount']:,.2f}")
+else:
+    st.info("Dados insuficientes para comparação entre meses.")
+
 # 3.5. Distribuição de Status
 st.subheader("Distribuição de Status de Pedidos")
 if not status_counts.empty:
@@ -256,6 +272,43 @@ if not rfm.empty:
     st.plotly_chart(fig_rfm, use_container_width=True)
 else:
     st.warning("Nenhum dado disponível.")
+
+# ============================================================
+# 🔹 2. Distribuição de Clientes por Região (Estado)
+# ============================================================
+st.subheader("Distribuição de Clientes por Região (Estado)")
+clientes_por_estado = customers['state'].value_counts().reset_index()
+clientes_por_estado.columns = ['state', 'count']
+fig_clients_state = px.bar(clientes_por_estado, x='state', y='count',
+                           title="Clientes por Estado",
+                           labels={'state': 'Estado', 'count': 'Número de Clientes'})
+st.plotly_chart(fig_clients_state, use_container_width=True)
+
+# ============================================================
+# 🔹 3. Novos Clientes por Mês
+# ============================================================
+st.subheader("Novos Clientes por Mês")
+first_orders = orders.sort_values('order_date').drop_duplicates('customer_id', keep='first')
+new_customers_monthly = first_orders.groupby(first_orders['order_date'].dt.strftime('%Y-%m'))['customer_id'].nunique().reset_index()
+new_customers_monthly.columns = ['month', 'new_customers']
+fig_new_customers = px.line(new_customers_monthly, x='month', y='new_customers', markers=True,
+                            title="Novos Clientes por Mês")
+fig_new_customers.update_layout(xaxis_title="Mês", yaxis_title="Novos Clientes")
+st.plotly_chart(fig_new_customers, use_container_width=True)
+
+# ============================================================
+# 🔹 4. Clientes por Categoria
+# ============================================================
+st.subheader("Clientes por Categoria")
+clientes_categoria = order_items.merge(orders, on='order_id') \
+                                 .merge(products, on='product_id') \
+                                 .groupby('category')['customer_id'] \
+                                 .nunique().reset_index(name='unique_customers')
+fig_clientes_cat = px.bar(clientes_categoria, x='category', y='unique_customers',
+                          title="Clientes por Categoria",
+                          labels={'category': 'Categoria', 'unique_customers': 'Clientes Únicos'})
+st.plotly_chart(fig_clientes_cat, use_container_width=True)
+
 
 # 3.9. Imagens estáticas
 st.subheader("Visualizações Estáticas")

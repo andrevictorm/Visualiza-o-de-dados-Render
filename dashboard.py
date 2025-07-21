@@ -1,10 +1,10 @@
 # =============================================================================
-# PARTE 3: DASHBOARD INTERATIVO COM STREAMLIT (OTIMIZADO)
+# PARTE 3: DASHBOARD INTERATIVO COM STREAMLIT
 # =============================================================================
 # Dashboard otimizado para e-commerce com KPIs e gráficos interativos.
 # Inclui filtros (meses, categorias, status, estados, segmentos RFM) e visualizações otimizadas.
 # Focado em reduzir tempo de carregamento e deploy no Render.
-# Para executar: streamlit run dashboard.py
+# Para executar: streamlit run dashboard.py ou acessar o link: https://ecommerce-dashboard-zwqm.onrender.com
 # Data: 20/07/2025
 
 import streamlit as st
@@ -43,7 +43,7 @@ rfm, orders, order_items, products, customers = load_data()
 
 # Filtros
 st.header("1. Filtros")
-col1, col2, col3, col4, col5 = st.columns(5)  # Aumentado para 5 colunas
+col1, col2, col3, col4, col5 = st.columns(5) #aumentar quantidade de filtros
 
 with col1:
     months = sorted(orders['order_date'].dt.strftime('%Y-%m').unique().tolist())
@@ -88,7 +88,7 @@ filtered_orders, filtered_order_items, filtered_products = filter_data(
     orders, order_items, products, customers, rfm, selected_months, selected_categories, selected_statuses, selected_states, selected_rfm_segments
 )
 
-# KPIs otimizados
+# KPIs
 st.header("2. KPIs")
 @st.cache_data
 def calculate_kpis(filtered_orders, filtered_order_items, filtered_products):
@@ -116,7 +116,7 @@ col4.metric("Pedidos por Cliente", f"{avg_orders_per_customer:.2f}")
 col5.metric("Total Pedidos", f"{total_orders:,}")
 col6.metric("Taxa Conversão", f"{conversion_rate:.2f}%")
 
-# Visualizações otimizadas
+# Visualizações
 st.header("3. Visualizações")
 @st.cache_data
 def get_visualizations(orders, order_items, products, filtered_orders, filtered_order_items, filtered_products, customers, rfm):
@@ -219,8 +219,7 @@ else:
     st.warning("Nenhum dado disponível.")
 
 # ============================================================
-# 🔹 1. Receita: Mês Atual vs Mês Anterior
-# (colar logo após o gráfico de Tendência de Receita Mensal)
+# Receita: Mês Atual vs Mês Anterior
 # ============================================================
 st.subheader("Receita: Mês Atual vs Mês Anterior")
 if not revenue_monthly.empty and len(revenue_monthly) >= 2:
@@ -274,7 +273,7 @@ else:
     st.warning("Nenhum dado disponível.")
 
 # ============================================================
-# 🔹 2. Distribuição de Clientes por Região (Estado)
+# Distribuição de Clientes por Região (Estado)
 # ============================================================
 st.subheader("Distribuição de Clientes por Região (Estado)")
 clientes_por_estado = customers['state'].value_counts().reset_index()
@@ -285,7 +284,7 @@ fig_clients_state = px.bar(clientes_por_estado, x='state', y='count',
 st.plotly_chart(fig_clients_state, use_container_width=True)
 
 # ============================================================
-# 🔹 3. Novos Clientes por Mês
+# Novos Clientes por Mês
 # ============================================================
 st.subheader("Novos Clientes por Mês")
 first_orders = orders.sort_values('order_date').drop_duplicates('customer_id', keep='first')
@@ -297,7 +296,7 @@ fig_new_customers.update_layout(xaxis_title="Mês", yaxis_title="Novos Clientes"
 st.plotly_chart(fig_new_customers, use_container_width=True)
 
 # ============================================================
-# 🔹 4. Clientes por Categoria
+# Clientes por Categoria
 # ============================================================
 st.subheader("Clientes por Categoria")
 clientes_categoria = order_items.merge(orders, on='order_id') \
